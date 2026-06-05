@@ -14,6 +14,9 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <title>Ma carte de visite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --accent:#4f46e5;
@@ -31,9 +34,9 @@
   body{
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     background:
-      radial-gradient(ellipse at 10% 0%, #1e1b4b 0%, transparent 55%),
-      radial-gradient(ellipse at 90% 10%, #3b0764 0%, transparent 50%),
-      linear-gradient(180deg,#0f172a,#020617);
+      radial-gradient(ellipse at 10% 0%, #14224a 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 10%, #0f2447 0%, transparent 50%),
+      linear-gradient(180deg,#0A1628,#020617);
     color:var(--text);
     line-height:1.5;
     padding:24px 16px 60px;
@@ -41,8 +44,9 @@
   .wrap{max-width:1100px;margin:0 auto}
   .app-head{text-align:center;margin-bottom:28px}
   .app-head h1{
-    font-size:clamp(22px,5vw,34px);font-weight:800;letter-spacing:-.5px;
-    background:linear-gradient(90deg,#818cf8,#e879f9);
+    font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:clamp(22px,5vw,34px);font-weight:700;letter-spacing:-.5px;
+    background:linear-gradient(90deg,#60A5FA,#C9A95C);
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   }
   .app-head p{color:var(--muted);font-size:14px;margin-top:6px}
@@ -221,6 +225,70 @@
     border-radius:30px;padding:10px 26px;font-size:15px;font-weight:700;cursor:pointer;
   }
   .qr-holder{cursor:pointer}
+
+  /* ─── Sélecteur de mode (Numérique / Imprimable) ──────────────── */
+  .mode-toggle{
+    display:flex;gap:4px;margin:0 auto 16px;max-width:540px;
+    background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:4px;
+  }
+  .mode-toggle button{
+    flex:1;border:none;background:transparent;color:var(--muted);
+    font-family:inherit;font-size:13px;font-weight:600;padding:9px 8px;border-radius:9px;
+    cursor:pointer;transition:background .15s,color .15s;
+  }
+  .mode-toggle button.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+
+  /* Bascule d'affichage des deux cartes */
+  .cardprint{display:none}
+  body[data-cardmode="print"] .card{display:none}
+  body[data-cardmode="print"] .cardprint{display:flex}
+  body[data-cardmode="print"] .share-box{display:none} /* le QR est déjà sur la carte */
+
+  /* Logo « A » Cadence (hérite de currentColor) */
+  .logo-mark{display:inline-flex;align-items:center;justify-content:center}
+  .logo-mark svg{height:1em;width:auto;display:block}
+
+  /* Logo discret sur la carte sombre */
+  .dark-logo{
+    position:absolute;top:18px;right:20px;color:rgba(255,255,255,.85);
+    font-size:30px;opacity:.92;
+  }
+  .dark-logo svg{filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
+
+  /* ─── Carte IMPRIMABLE (format 85×55, fond blanc) ──────────────── */
+  .cardprint{
+    flex-direction:column;justify-content:space-between;
+    width:100%;max-width:540px;margin:0 auto;aspect-ratio:85/55;
+    background:#ffffff;color:#0f1b2d;border-radius:16px;overflow:hidden;
+    box-shadow:0 24px 60px rgba(0,0,0,.5);position:relative;
+    padding:7% 7.4%;
+    font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:clamp(10px,2.75vw,15.5px);
+    border:1px solid #e7ebf0;
+  }
+  .cp-top{display:flex;align-items:center;gap:.75em}
+  .cp-logo{color:#16233a;font-size:2.7em;line-height:1}
+  .cp-brand{display:flex;flex-direction:column;line-height:1}
+  .cp-brand b{font-size:1.45em;font-weight:700;letter-spacing:.16em;color:#16233a}
+  .cp-brand i{font-size:.62em;font-style:normal;letter-spacing:.34em;color:#b08a3e;margin-top:.5em}
+
+  .cp-id{margin-top:.2em}
+  .cp-name{font-size:1.95em;font-weight:300;line-height:1.04;letter-spacing:-.01em;color:#0f1b2d}
+  .cp-name b{display:block;font-weight:700}
+  .cp-title{font-size:.82em;color:#9a7a35;font-weight:500;margin-top:.45em;letter-spacing:.01em}
+
+  .cp-rule{width:3em;height:2px;background:linear-gradient(90deg,#c9a95c,#e6cd8f);margin:.7em 0 .2em;border-radius:2px}
+
+  .cp-contacts{display:flex;flex-direction:column;gap:.32em;max-width:62%}
+  .cp-row{display:flex;align-items:center;gap:.6em;font-size:.8em;color:#33405a}
+  .cp-row .ico{width:1.55em;height:1.55em;flex-shrink:0;color:#16233a}
+  .cp-row .ico svg{width:100%;height:100%}
+  .cp-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  .cp-qr{position:absolute;right:7.4%;bottom:7%;display:flex;flex-direction:column;align-items:center;gap:.35em}
+  .cp-qrimg{width:6.4em;height:6.4em;background:#fff;border:1px solid #e7ebf0;border-radius:6px;padding:.2em;display:flex;align-items:center;justify-content:center}
+  .cp-qrimg img{width:100%;height:100%;image-rendering:pixelated}
+  .cp-qr small{font-size:.56em;color:#7a869c;letter-spacing:.02em}
 </style>
 </head>
 <body>
@@ -300,8 +368,13 @@
 
     <!-- APERÇU + PARTAGE -->
     <div class="preview-col">
+      <div class="mode-toggle" id="modeToggle">
+        <button data-mode="digital" class="active">Numérique</button>
+        <button data-mode="print">Imprimable</button>
+      </div>
+
       <div class="card" id="card">
-        <div class="card-banner"></div>
+        <div class="card-banner"><span class="dark-logo logo-mark" id="darkLogo"></span></div>
         <div class="card-body">
           <div class="card-avatar" id="cardAvatar">?</div>
           <div class="card-name" id="cardName">Votre nom</div>
@@ -316,6 +389,24 @@
             <button class="btn btn-primary" id="vcardBtn">📇 Enregistrer le contact</button>
             <button class="btn btn-ghost" id="shareBtn">🔗 Partager</button>
           </div>
+        </div>
+      </div>
+
+      <!-- CARTE IMPRIMABLE (fond blanc, format 85×55) -->
+      <div class="cardprint" id="cardPrint">
+        <div class="cp-top">
+          <span class="cp-logo logo-mark" id="cpLogo"></span>
+          <span class="cp-brand"><b>CADENCE</b><i>ARCHITECTES</i></span>
+        </div>
+        <div class="cp-id">
+          <div class="cp-name" id="cpName"></div>
+          <div class="cp-title" id="cpTitle"></div>
+        </div>
+        <div class="cp-rule"></div>
+        <div class="cp-contacts" id="cpContacts"></div>
+        <div class="cp-qr">
+          <div class="cp-qrimg" id="cpQR"></div>
+          <small>Scannez pour m'enregistrer</small>
         </div>
       </div>
 
@@ -372,6 +463,14 @@
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[name]||ICONS.link)+'</svg>';
   }
 
+  // Logo « A » angulaire Cadence (silhouette vectorielle, hérite de currentColor)
+  const LOGO_MARK = '<svg viewBox="0 0 76 100" aria-label="Cadence"><path fill="currentColor" d="M37 0 L60 58 L75 100 L50 68 L49 44 L22 44 L11 64 L2 70 Z"/></svg>';
+  function injectLogos(){
+    const d=$('darkLogo'), p=$('cpLogo');
+    if(d) d.innerHTML=LOGO_MARK;
+    if(p) p.innerHTML=LOGO_MARK;
+  }
+
   const SOCIAL_TYPES = [
     {id:'linkedin',label:'LinkedIn'},
     {id:'instagram',label:'Instagram'},
@@ -392,7 +491,8 @@
     {a:'#ec4899',b:'#be185d',t:'#f9a8d4'},
     {a:'#ef4444',b:'#b91c1c',t:'#fca5a5'},
     {a:'#14b8a6',b:'#0d9488',t:'#5eead4'},
-    {a:'#64748b',b:'#334155',t:'#cbd5e1'}
+    {a:'#64748b',b:'#334155',t:'#cbd5e1'},
+    {a:'#3B82F6',b:'#1E3A8A',t:'#C9A95C'}  /* AXION — bleu nuit + or (défaut Cadence) */
   ];
 
   // ─── État ──────────────────────────────────────────────────────
@@ -408,7 +508,7 @@
     email:'f.clarisse@cadence-architectes.fr',
     website:'',
     address:'16-18 rue Dubrunfaut, 75012 Paris',
-    photo:'', theme:7, links:[]
+    photo:'', theme:8, links:[]
   };
 
   // ─── Utilitaires ───────────────────────────────────────────────
@@ -551,6 +651,34 @@
     parent.appendChild(a);
   }
 
+  // ─── Rendu de la carte IMPRIMABLE (fond blanc) ─────────────────
+  function renderPrintCard(){
+    const name=(state.name||'').trim();
+    const parts=name.split(/\s+/);
+    let html;
+    if(parts.length>1){
+      const first=parts[0];
+      const last=parts.slice(1).join(' ');
+      html=esc(first)+'<b>'+esc(last.toUpperCase())+'</b>';
+    }else{
+      html='<b>'+esc(name||'Votre nom')+'</b>';
+    }
+    $('cpName').innerHTML=html;
+    $('cpTitle').textContent=state.title||'';
+    const box=$('cpContacts'); box.innerHTML='';
+    addCpRow(box,'phone',state.phone);
+    addCpRow(box,'mail',state.email);
+    addCpRow(box,'globe',state.website);
+    addCpRow(box,'pin',state.address);
+  }
+  function addCpRow(parent,icon,val){
+    if(!val) return;
+    const d=document.createElement('div');
+    d.className='cp-row';
+    d.innerHTML='<span class="ico">'+svg(icon)+'</span><span>'+esc(val)+'</span>';
+    parent.appendChild(d);
+  }
+
   // ─── vCard (.vcf) ──────────────────────────────────────────────
   function buildVCard(){
     const parts=['BEGIN:VCARD','VERSION:3.0'];
@@ -652,7 +780,9 @@
   let saveTimer;
   function sync(){
     renderCard();
+    renderPrintCard();
     renderQR();
+    buildQRImg($('cpQR'), 4);
     clearTimeout(saveTimer);
     saveTimer=setTimeout(()=>{try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){}},250);
   }
@@ -702,7 +832,27 @@
     sync();
   }
 
+  // ─── Bascule Numérique / Imprimable ────────────────────────────
+  const MODE_KEY='carte-cardmode';
+  function setCardMode(mode){
+    if(mode!=='print') mode='digital';
+    document.body.setAttribute('data-cardmode',mode);
+    const tg=$('modeToggle');
+    if(tg) tg.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+    try{localStorage.setItem(MODE_KEY,mode);}catch(e){}
+    // (Re)génère le QR de la carte affichée pour garantir un rendu net
+    if(mode==='print') buildQRImg($('cpQR'),4); else renderQR();
+  }
+
   function bindActions(){
+    injectLogos();
+    // Restaure le mode choisi (par défaut : numérique)
+    let savedMode='digital';
+    try{savedMode=localStorage.getItem(MODE_KEY)||'digital';}catch(e){}
+    setCardMode(savedMode);
+    const tg=$('modeToggle');
+    if(tg) tg.querySelectorAll('button').forEach(b=>b.onclick=()=>setCardMode(b.dataset.mode));
+
     $('photoBtn') && ($('photoBtn').onclick=()=>$('photoInput').click());
     $('photoInput') && ($('photoInput').onchange=e=>{
       const f=e.target.files[0]; if(!f) return;

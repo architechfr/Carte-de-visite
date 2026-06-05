@@ -1,10 +1,11 @@
 // Service worker — carte de visite numérique (fonctionnement hors-ligne)
-const CACHE = 'carte-visite-v1';
+const CACHE = 'carte-visite-v2';
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './qrcode.min.js',
+  './logo-cadence.svg',
   './icon-192.png',
   './icon-512.png'
 ];
