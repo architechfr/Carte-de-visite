@@ -246,7 +246,9 @@
 
   /* Logo « A » Cadence (hérite de currentColor) */
   .logo-mark{display:inline-flex;align-items:center;justify-content:center}
-  .logo-mark svg{height:1em;width:auto;display:block}
+  .logo-mark svg,.logo-mark img{height:1em;width:auto;display:block}
+  .logo-mark img.logo-white{filter:brightness(0) invert(1)}
+  .logo-mark.logo-missing{display:none} /* pas de faux logo : on masque si le fichier officiel manque */
 
   /* Logo discret sur la carte sombre */
   .dark-logo{
@@ -463,12 +465,19 @@
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[name]||ICONS.link)+'</svg>';
   }
 
-  // Logo « A » angulaire Cadence (silhouette vectorielle, hérite de currentColor)
-  const LOGO_MARK = '<svg viewBox="0 0 76 100" aria-label="Cadence"><path fill="currentColor" d="M37 0 L60 58 L75 100 L50 68 L49 44 L22 44 L11 64 L2 70 Z"/></svg>';
+  // Logo OFFICIEL Cadence (fichier fourni, jamais recomposé).
+  // Fichier monochrome (artwork sombre sur fond transparent) :
+  //  · carte blanche  → tel quel
+  //  · carte sombre   → inversé en blanc via CSS (.logo-white)
+  const LOGO_SRC = 'assets/logo-cadence.svg';
   function injectLogos(){
-    const d=$('darkLogo'), p=$('cpLogo');
-    if(d) d.innerHTML=LOGO_MARK;
-    if(p) p.innerHTML=LOGO_MARK;
+    const mk=(el,white)=>{ if(!el) return;
+      el.innerHTML='<img src="'+LOGO_SRC+'" alt="Cadence Architectes"'
+        +(white?' class="logo-white"':'')
+        +' onerror="this.closest(\'.logo-mark\').classList.add(\'logo-missing\')">';
+    };
+    mk($('darkLogo'),true);
+    mk($('cpLogo'),false);
   }
 
   const SOCIAL_TYPES = [

@@ -1,14 +1,15 @@
 // Service worker — carte de visite numérique (fonctionnement hors-ligne)
-const CACHE = 'carte-visite-v2';
+const CACHE = 'carte-visite-v3';
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './qrcode.min.js',
-  './logo-cadence.svg',
   './icon-192.png',
   './icon-512.png'
 ];
+// Note : le logo officiel (assets/logo-cadence.svg) est mis en cache au runtime
+// dès qu'il est présent — pas en précache, pour ne pas casser l'install s'il manque.
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
