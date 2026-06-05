@@ -1,0 +1,15 @@
+{
+  "name": "Ma carte de visite",
+  "short_name": "Ma carte",
+  "description": "Affichez et partagez votre carte de visite numérique : QR code et enregistrement du contact.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#334155",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
