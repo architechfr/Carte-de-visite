@@ -142,6 +142,7 @@
   .card-banner .dark-logo{z-index:2}
   .card-body{padding:0 26px 26px;margin-top:-44px}
   .card-avatar{
+    position:relative;z-index:3; /* passe AU-DESSUS du bandeau (corrige le rognage) */
     width:92px;height:92px;border-radius:50%;border:3px solid var(--panel);
     background:linear-gradient(160deg,#16233a,#0b1222) center/cover no-repeat;
     display:flex;align-items:center;justify-content:center;
@@ -593,7 +594,9 @@
       name:p.name||'', title:p.title||'', company:p.company||AGENCY.company, bio:p.bio||'',
       phone:p.mobile||'', phone2:(p.phoneFixe!==undefined?p.phoneFixe:AGENCY.phoneFixe)||'',
       email:p.email||'', website:p.website||AGENCY.website||'',
-      address:p.address||AGENCY.address||'', photo:'', theme:8,
+      address:p.address||AGENCY.address||'',
+      // Photo locale dérivée de l'id (assets/photos/<id>.jpg), surchargeable via p.photo
+      photo:(p.photo!==undefined?p.photo:'assets/photos/'+p.id+'.jpg'), theme:8,
       links:Array.isArray(p.links)?p.links.map(l=>Object.assign({},l)):[]
     };
   }
