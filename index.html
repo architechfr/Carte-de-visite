@@ -191,7 +191,7 @@
   .toast.show{transform:translateX(-50%) translateY(0)}
 
   /* Mode lecture (carte partagée) */
-  body.view-mode .editor,body.view-mode .app-head p,body.view-mode #installBtn{display:none}
+  body.view-mode .editor,body.view-mode .app-head p,body.view-mode #installBtn,body.view-mode .directory,body.view-mode .mode-toggle{display:none}
   body.view-mode .layout{grid-template-columns:1fr;max-width:440px;margin:0 auto}
   .view-cta{display:none;margin-top:18px;text-align:center}
   body.view-mode .view-cta{display:block}
@@ -227,6 +227,17 @@
   .qr-holder{cursor:pointer}
 
   /* ─── Sélecteur de mode (Numérique / Imprimable) ──────────────── */
+  .directory{
+    max-width:440px;margin:18px auto 0;text-align:left;
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;
+  }
+  .directory label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700;margin-bottom:7px}
+  .directory select{
+    width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    border-radius:10px;padding:11px 12px;font-size:14px;font-family:inherit;cursor:pointer;
+  }
+  .directory select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,130,246,.2)}
+
   .mode-toggle{
     display:flex;gap:4px;margin:0 auto 16px;max-width:540px;
     background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:4px;
@@ -298,6 +309,10 @@
   <div class="app-head">
     <h1>Carte de visite numérique</h1>
     <p>Renseignez vos infos, partagez votre carte par QR code ou par lien.</p>
+    <div class="directory" id="directory">
+      <label for="profilePicker">Annuaire Cadence</label>
+      <select id="profilePicker"></select>
+    </div>
     <button id="installBtn">📲 Installer l'application</button>
   </div>
 
@@ -339,13 +354,17 @@
       <div class="section-label">Coordonnées</div>
       <div class="row2">
         <div class="field">
-          <label>Téléphone</label>
+          <label>Mobile</label>
           <input id="f-phone" type="tel" placeholder="+33 6 12 34 56 78">
         </div>
         <div class="field">
-          <label>Email</label>
-          <input id="f-email" type="email" placeholder="jeanne@exemple.fr">
+          <label>Téléphone fixe (agence)</label>
+          <input id="f-phone2" type="tel" placeholder="+33 1 ..">
         </div>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input id="f-email" type="email" placeholder="jeanne@exemple.fr">
       </div>
       <div class="field">
         <label>Site web</label>
@@ -504,21 +523,36 @@
     {a:'#3B82F6',b:'#1E3A8A',t:'#C9A95C'}  /* AXION — bleu nuit + or (défaut Cadence) */
   ];
 
+  // ─── Annuaire Cadence ──────────────────────────────────────────
+  // Infos communes à toute l'agence (partagées par chaque carte).
+  const AGENCY = {
+    company:'Cadence Architectes Associés',
+    address:'16-18 rue Dubrunfaut, 75012 Paris',
+    website:'',
+    phoneFixe:''   // TODO: numéro fixe de l'agence à renseigner
+  };
+  // Profils réels uniquement (group: 'associes' | 'salaries').
+  // Email = initiale.nom@cadence-architectes.fr.
+  const PROFILES = [
+    {id:'f-clarisse', group:'associes', name:'Florian CLARISSE',
+     title:"Maître d'Œuvre · Associé cogérant",
+     mobile:'06 69 14 34 18', email:'f.clarisse@cadence-architectes.fr', links:[]}
+  ];
+  const GROUP_LABELS = {associes:'Associés', salaries:'Salariés'};
+  function profileToState(p){
+    return {
+      name:p.name||'', title:p.title||'', company:p.company||AGENCY.company, bio:p.bio||'',
+      phone:p.mobile||'', phone2:(p.phoneFixe!==undefined?p.phoneFixe:AGENCY.phoneFixe)||'',
+      email:p.email||'', website:p.website||AGENCY.website||'',
+      address:p.address||AGENCY.address||'', photo:'', theme:8,
+      links:Array.isArray(p.links)?p.links.map(l=>Object.assign({},l)):[]
+    };
+  }
+
   // ─── État ──────────────────────────────────────────────────────
   const STORE_KEY = 'carte-visite-v1';
-  // Carte par défaut (modifiable dans l'éditeur) : votre carte s'affiche
-  // immédiatement à l'ouverture de l'app ou du site.
-  let state = {
-    name:'Florian CLARISSE',
-    title:"Maître d'Œuvre · Associé cogérant",
-    company:'Cadence Architectes Associés',
-    bio:'',
-    phone:'06 69 14 34 18',
-    email:'f.clarisse@cadence-architectes.fr',
-    website:'',
-    address:'16-18 rue Dubrunfaut, 75012 Paris',
-    photo:'', theme:8, links:[]
-  };
+  // Carte par défaut : premier associé de l'annuaire.
+  let state = profileToState(PROFILES[0]);
 
   // ─── Utilitaires ───────────────────────────────────────────────
   const $ = id => document.getElementById(id);
@@ -636,6 +670,7 @@
     // Coordonnées
     const cl=$('contactList'); cl.innerHTML='';
     addContact(cl,'phone',state.phone,'tel:'+(state.phone||'').replace(/\s/g,''));
+    addContact(cl,'phone',state.phone2,'tel:'+(state.phone2||'').replace(/\s/g,''));
     addContact(cl,'mail',state.email,'mailto:'+state.email);
     addContact(cl,'globe',state.website, /^https?:/i.test(state.website)?state.website:'https://'+state.website);
     addContact(cl,'pin',state.address, state.address?'https://maps.google.com/?q='+encodeURIComponent(state.address):'');
@@ -676,6 +711,7 @@
     $('cpTitle').textContent=state.title||'';
     const box=$('cpContacts'); box.innerHTML='';
     addCpRow(box,'phone',state.phone);
+    addCpRow(box,'phone',state.phone2);
     addCpRow(box,'mail',state.email);
     addCpRow(box,'globe',state.website);
     addCpRow(box,'pin',state.address);
@@ -700,6 +736,7 @@
     if(state.company) parts.push('ORG:'+state.company);
     if(state.title) parts.push('TITLE:'+state.title);
     if(state.phone) parts.push('TEL;TYPE=CELL:'+state.phone);
+    if(state.phone2) parts.push('TEL;TYPE=WORK:'+state.phone2);
     if(state.email) parts.push('EMAIL;TYPE=INTERNET:'+state.email);
     if(state.website) parts.push('URL:'+(/^https?:/i.test(state.website)?state.website:'https://'+state.website));
     if(state.address) parts.push('ADR;TYPE=WORK:;;'+state.address.replace(/,/g,'\\,')+';;;;');
@@ -809,6 +846,7 @@
     bindField('f-company','company');
     bindField('f-bio','bio');
     bindField('f-phone','phone');
+    bindField('f-phone2','phone2');
     bindField('f-email','email');
     bindField('f-website','website');
     bindField('f-address','address');
@@ -816,25 +854,67 @@
     renderSwatches();
   }
 
+  // ─── Annuaire : sélecteur de profil ────────────────────────────
+  function buildPicker(){
+    const sel=$('profilePicker'); if(!sel) return;
+    let html='<option value="">— Nouvelle carte (vierge) —</option>';
+    ['associes','salaries'].forEach(g=>{
+      const list=PROFILES.filter(p=>p.group===g);
+      if(!list.length) return;
+      html+='<optgroup label="'+GROUP_LABELS[g]+'">';
+      list.forEach(p=>{ html+='<option value="'+p.id+'">'+esc(p.name)+'</option>'; });
+      html+='</optgroup>';
+    });
+    sel.innerHTML=html;
+    sel.onchange=()=>loadProfile(sel.value,true);
+  }
+  function loadProfile(id,updateUrl){
+    const p=PROFILES.find(x=>x.id===id);
+    if(p){
+      state=profileToState(p);
+      try{localStorage.removeItem(STORE_KEY);}catch(e){}
+      if(updateUrl){ try{history.replaceState(null,'','?p='+id);}catch(e){} }
+    }else{
+      // « vierge »
+      state={name:'',title:'',company:AGENCY.company,bio:'',phone:'',phone2:AGENCY.phoneFixe||'',email:'',website:AGENCY.website||'',address:AGENCY.address||'',photo:'',theme:8,links:[]};
+      if(updateUrl){ try{history.replaceState(null,'',location.pathname);}catch(e){} }
+    }
+    const sel=$('profilePicker'); if(sel) sel.value=id||'';
+    fillEditor(); sync();
+  }
+
   function init(){
-    // Mode lecture si un paramètre #c= est présent
+    // Mode lecture si un paramètre #c= est présent (carte partagée)
     const hash=location.hash;
     if(hash.startsWith('#c=')){
       const decoded=decodeState(hash.slice(3));
       if(decoded){
         state=Object.assign(state,decoded);
         if(!Array.isArray(state.links)) state.links=[];
+        if(state.phone2===undefined) state.phone2='';
         document.body.classList.add('view-mode');
-        renderCard(); renderQR();
         bindActions();
+        renderCard(); renderPrintCard(); renderQR(); buildQRImg($('cpQR'),4);
         return;
       }
     }
-    // Sinon : charger la sauvegarde locale
-    try{
-      const saved=localStorage.getItem(STORE_KEY);
-      if(saved){const o=JSON.parse(saved);state=Object.assign(state,o);if(!Array.isArray(state.links))state.links=[];}
-    }catch(e){}
+
+    buildPicker();
+
+    // Lien profond ?p=<id> → ouvre directement la carte de ce membre
+    const pm=location.search.match(/[?&]p=([^&]+)/);
+    const pid=pm?decodeURIComponent(pm[1]):'';
+    const profile=PROFILES.find(x=>x.id===pid);
+    if(profile){
+      state=profileToState(profile);
+      const sel=$('profilePicker'); if(sel) sel.value=pid;
+    }else{
+      // Sinon : charger la sauvegarde locale (si présente)
+      try{
+        const saved=localStorage.getItem(STORE_KEY);
+        if(saved){const o=JSON.parse(saved);state=Object.assign(state,o);if(!Array.isArray(state.links))state.links=[];if(state.phone2===undefined)state.phone2='';}
+      }catch(e){}
+    }
 
     fillEditor();
     bindActions();
@@ -871,7 +951,7 @@
     $('addLink') && ($('addLink').onclick=()=>{state.links.push({type:'linkedin',value:''});renderLinks();sync();});
     $('resetBtn') && ($('resetBtn').onclick=()=>{
       if(!confirm('Effacer toutes les informations ?')) return;
-      state={name:'',title:'',company:'',bio:'',phone:'',email:'',website:'',address:'',photo:'',theme:0,links:[]};
+      state={name:'',title:'',company:'',bio:'',phone:'',phone2:'',email:'',website:'',address:'',photo:'',theme:8,links:[]};
       try{localStorage.removeItem(STORE_KEY);}catch(e){}
       fillEditor(); sync();
     });
