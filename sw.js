@@ -1,17 +1,15 @@
 // Service worker — carte de visite numérique (fonctionnement hors-ligne)
-const CACHE = 'carte-visite-v5';
+const CACHE = 'carte-visite-v6';
 const ASSETS = [
   './',
   './index.html',
-  './annuaire.html',
   './manifest.webmanifest',
   './qrcode.min.js',
-  './assets/js/profiles.js',
   './icon-192.png',
   './icon-512.png'
 ];
-// Note : le logo officiel (assets/logo-cadence.svg) est mis en cache au runtime
-// dès qu'il est présent — pas en précache, pour ne pas casser l'install s'il manque.
+// Les polices Google (modèles) sont mises en cache au premier affichage.
+const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
@@ -47,7 +45,8 @@ self.addEventListener('fetch', e => {
 
   e.respondWith(
     caches.match(req).then(cached => cached || fetch(req).then(resp => {
-      if (resp.ok && new URL(req.url).origin === location.origin) {
+      const u = new URL(req.url);
+      if (resp.ok && (u.origin === location.origin || FONT_HOSTS.includes(u.hostname))) {
         const copy = resp.clone();
         caches.open(CACHE).then(c => c.put(req, copy));
       }

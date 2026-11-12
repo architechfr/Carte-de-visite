@@ -1,13 +1,15 @@
-# Carte de visite numérique — Cadence Architectes
+# Carte de visite numérique
 
-Générateur de carte de visite numérique (PWA) pour les personnels de **Cadence Architectes**.
+Générateur de carte de visite numérique (PWA) grand public : on choisit un modèle, on remplit ses infos, on partage par QR code.
 
 🔗 **En ligne :** https://architechfr.github.io/Carte-de-visite/
 
 ## Fonctionnalités
 
-- **Éditeur live** : photo, identité, fonction, entreprise, coordonnées, réseaux sociaux, couleur de thème.
-- **Aperçu instantané** de la carte.
+- **10 modèles** prêts à l'emploi (mise en page + paire typographique + palette), personnalisables : 9 typos, 10 palettes, couleur libre.
+- **Logo** : aucun, initiales générées, icône métier (14 choix) ou logo importé (PNG/SVG, teinte d'origine / blanc / noir).
+- **Éditeur live** : photo, identité, fonction, entreprise, coordonnées, réseaux sociaux.
+- **Aperçu instantané** : carte numérique et carte imprimable 85×55 aux couleurs du modèle.
 - **Enregistrer le contact** : export vCard (`.vcf`) — s'ajoute directement aux contacts du téléphone.
 - **Partage** : lien dont l'état complet de la carte est encodé dans l'URL (aucun serveur requis).
 - **QR code** : à scanner pour ouvrir la carte sur le téléphone d'un tiers, avec mode présentation plein écran.
@@ -30,8 +32,6 @@ Tout commit poussé sur `main` met le site à jour automatiquement.
 
 ## Feuille de route
 
-- [ ] Aligner la charte sur l'identité Cadence / AXION (bleu nuit + or).
-- [ ] Intégration dans le portail **AXION** comme module pour les personnels Cadence.
-
----
-*Cadence Architectes Associés · Paris 12e*
+- [x] Modèles, typos, logo (étape 1)
+- [ ] Fond d'écran portrait pour téléphone avec QR (étape 2)
+- [ ] Parcours simplifié en 3 écrans + marque neutre (étape 3)

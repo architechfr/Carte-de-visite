@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#334155">
-<meta name="description" content="Affichez et partagez votre carte de visite numérique : QR code et enregistrement du contact.">
+<meta name="theme-color" content="#0f172a">
+<meta name="description" content="Créez votre carte de visite numérique en 2 minutes : modèles prêts à l'emploi, QR code, enregistrement du contact.">
 <link rel="manifest" href="manifest.webmanifest">
-<!-- Installation sur iPhone / Android -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,38 +15,26 @@
 <title>Ma carte de visite</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+<!-- Toutes les paires typographiques des modèles (seules les fontes affichées sont téléchargées) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Space+Grotesk:wght@400;700&family=Playfair+Display:wght@500;700&family=Lato:wght@400;700&family=Cormorant+Garamond:wght@500;700&family=Montserrat:wght@400;600&family=Archivo+Black&family=Archivo:wght@400;600&family=Syne:wght@600;800&family=DM+Sans:wght@400;600&family=JetBrains+Mono:wght@400;700&family=Fraunces:wght@600;800&family=Nunito:wght@400;700&family=Bebas+Neue&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --accent:#4f46e5;
-    --accent2:#9333ea;
-    --bg:#0f172a;
-    --panel:#1e293b;
-    --panel2:#172033;
-    --line:#334155;
-    --text:#e2e8f0;
-    --muted:#94a3b8;
-    --radius:16px;
+    --accent:#4f46e5;--accent2:#9333ea;
+    --bg:#0f172a;--panel:#1e293b;--panel2:#172033;--line:#334155;
+    --text:#e2e8f0;--muted:#94a3b8;--radius:16px;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{min-height:100%}
   body{
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:
-      radial-gradient(ellipse at 10% 0%, #14224a 0%, transparent 55%),
-      radial-gradient(ellipse at 90% 10%, #0f2447 0%, transparent 50%),
-      linear-gradient(180deg,#0A1628,#020617);
-    color:var(--text);
-    line-height:1.5;
-    padding:24px 16px 60px;
+    background:radial-gradient(ellipse at 10% 0%,#1b1f4a 0%,transparent 55%),linear-gradient(180deg,#0b1220,#020617);
+    color:var(--text);line-height:1.5;padding:24px 16px 60px;
   }
   .wrap{max-width:1100px;margin:0 auto}
-  .app-head{text-align:center;margin-bottom:28px}
+  .app-head{text-align:center;margin-bottom:26px}
   .app-head h1{
-    font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    font-size:clamp(22px,5vw,34px);font-weight:700;letter-spacing:-.5px;
-    background:linear-gradient(90deg,#60A5FA,#C9A95C);
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    font-family:'Space Grotesk',system-ui,sans-serif;font-size:clamp(22px,5vw,34px);font-weight:700;letter-spacing:-.5px;
+    background:linear-gradient(90deg,#818cf8,#f0abfc);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   }
   .app-head p{color:var(--muted);font-size:14px;margin-top:6px}
 
@@ -55,351 +42,305 @@
   @media(max-width:860px){.layout{grid-template-columns:1fr}}
 
   /* ─── Éditeur ─────────────────────────── */
-  .editor{
-    background:var(--panel);border:1px solid var(--line);
-    border-radius:var(--radius);padding:22px;
+  .editor{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .section-label{
+    font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);
+    margin:22px 0 12px;padding-top:16px;border-top:1px solid var(--line);font-weight:700;
+    display:flex;justify-content:space-between;align-items:center;gap:8px;
   }
-  .editor h2{font-size:14px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:16px}
+  .section-label:first-child{border:none;padding-top:0;margin-top:0}
+  .section-label .step{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;align-items:center;justify-content:center;margin-right:8px;letter-spacing:0}
+  .link-btn{background:none;border:none;color:#a5b4fc;font-size:11px;cursor:pointer;text-transform:none;letter-spacing:0;font-weight:600}
+  .sub-label{font-size:12px;font-weight:600;color:var(--muted);margin:14px 0 8px}
   .field{margin-bottom:14px}
   .field label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
   .field input,.field textarea{
-    width:100%;background:var(--panel2);border:1px solid var(--line);
-    color:var(--text);border-radius:10px;padding:11px 13px;font-size:14px;
-    font-family:inherit;transition:border-color .15s,box-shadow .15s;
+    width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;
+    padding:11px 13px;font-size:14px;font-family:inherit;transition:border-color .15s,box-shadow .15s;
   }
-  .field input:focus,.field textarea:focus{
-    outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,70,229,.25);
-  }
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,70,229,.25)}
   .field textarea{resize:vertical;min-height:64px}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   @media(max-width:480px){.row2{grid-template-columns:1fr}}
 
-  .section-label{
-    font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);
-    margin:22px 0 12px;padding-top:16px;border-top:1px solid var(--line);font-weight:700;
-  }
+  /* Galerie de modèles */
+  .tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
+  .tpl{background:var(--panel2);border:2px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;padding:0;text-align:left;color:var(--text);font-family:inherit;transition:transform .1s,border-color .15s}
+  .tpl:active{transform:scale(.96)}
+  .tpl.sel{border-color:#a5b4fc;box-shadow:0 0 0 3px rgba(129,140,248,.25)}
+  .tpl-prev{height:66px;position:relative;overflow:hidden}
+  .tpl-band{position:absolute;left:0;right:0;top:0}
+  .tpl-aa{position:absolute;left:9px;font-size:22px;font-weight:700;line-height:1}
+  .tpl-dot{position:absolute;right:8px;bottom:8px;width:12px;height:12px;border-radius:50%}
+  .tpl-name{font-size:11.5px;font-weight:600;padding:6px 8px}
 
-  /* Photo */
-  .photo-row{display:flex;align-items:center;gap:14px;margin-bottom:6px}
-  .photo-preview{
-    width:64px;height:64px;border-radius:50%;flex-shrink:0;
-    background:var(--panel2);border:2px solid var(--line);
-    background-size:cover;background-position:center;
-    display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:24px;
-  }
-  .photo-btns{display:flex;flex-direction:column;gap:6px}
+  /* Chips & segments */
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:20px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px}
+  .chip span{font-size:16px;font-weight:700;line-height:1}
+  .chip.sel{border-color:#a5b4fc;background:rgba(129,140,248,.15)}
+  .seg{display:flex;gap:4px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:4px}
+  .seg button{flex:1;border:none;background:transparent;color:var(--muted);font-family:inherit;font-size:12.5px;font-weight:600;padding:8px 6px;border-radius:9px;cursor:pointer}
+  .seg button.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
 
-  /* Liens / réseaux */
-  .link-item{display:flex;gap:8px;margin-bottom:8px;align-items:center}
-  .link-item select{
-    background:var(--panel2);border:1px solid var(--line);color:var(--text);
-    border-radius:10px;padding:11px 8px;font-size:13px;flex:0 0 130px;
-  }
-  .link-item input{flex:1}
-  .link-item .del{
-    flex:0 0 38px;height:42px;border:1px solid var(--line);background:var(--panel2);
-    color:#f87171;border-radius:10px;font-size:18px;cursor:pointer;
-  }
-  .link-item .del:active{transform:scale(.92)}
-
-  /* Couleurs thème */
-  .swatches{display:flex;gap:10px;flex-wrap:wrap}
-  .swatch{
-    width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid transparent;
-    transition:transform .12s;
-  }
+  .swatches{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .swatch{width:34px;height:34px;border-radius:50%;cursor:pointer;border:2px solid var(--line);padding:0;transition:transform .12s}
   .swatch:active{transform:scale(.9)}
-  .swatch.sel{border-color:#fff;box-shadow:0 0 0 2px var(--bg),0 0 0 4px currentColor}
+  .swatch.sel{border-color:#fff;box-shadow:0 0 0 2px var(--bg),0 0 0 4px #a5b4fc}
+  .color-pick{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);cursor:pointer;margin-left:4px}
+  .color-pick input{width:34px;height:34px;border:2px solid var(--line);border-radius:50%;padding:0;background:none;cursor:pointer;overflow:hidden}
+  .color-pick input::-webkit-color-swatch-wrapper{padding:0}
+  .color-pick input::-webkit-color-swatch{border:none;border-radius:50%}
 
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    border:none;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600;
-    cursor:pointer;font-family:inherit;transition:transform .1s,filter .15s;
-  }
+  /* Logo */
+  .logo-panel{margin-top:12px}
+  .icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}
+  .icon-opt{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:8px 4px 6px;cursor:pointer;font-family:inherit;font-size:10.5px;display:flex;flex-direction:column;align-items:center;gap:4px}
+  .icon-opt svg{width:22px;height:22px}
+  .icon-opt.sel{border-color:#a5b4fc;background:rgba(129,140,248,.15)}
+  .upload-row{display:flex;align-items:center;gap:14px}
+  .logo-preview{width:88px;height:64px;border-radius:10px;flex-shrink:0;border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px;text-align:center;
+    background:repeating-conic-gradient(#273449 0 25%,#1d2839 0 50%) 50%/14px 14px}
+  .logo-preview img{max-width:80px;max-height:56px;object-fit:contain}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:8px}
+
+  /* Photo / liens */
+  .photo-row{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+  .photo-preview{width:64px;height:64px;border-radius:50%;flex-shrink:0;background:var(--panel2) center/cover;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:24px}
+  .stack{display:flex;flex-direction:column;gap:6px}
+  .link-item{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+  .link-item select{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:11px 8px;font-size:13px;flex:0 0 130px}
+  .link-item input{flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:11px 13px;font-size:14px;font-family:inherit;min-width:0}
+  .link-item .del{flex:0 0 38px;height:42px;border:1px solid var(--line);background:var(--panel2);color:#f87171;border-radius:10px;font-size:18px;cursor:pointer}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:transform .1s}
   .btn:active{transform:scale(.96)}
   .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
   .btn-ghost{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
   .btn-block{width:100%}
   .btn-sm{padding:7px 12px;font-size:12px}
 
-  /* ─── Aperçu carte ────────────────────── */
+  /* ─── Aperçu ──────────────────────────── */
   .preview-col{position:sticky;top:24px}
   @media(max-width:860px){.preview-col{position:static}}
+  .mode-toggle{display:flex;gap:4px;margin:0 auto 16px;max-width:540px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:4px}
+  .mode-toggle button{flex:1;border:none;background:transparent;color:var(--muted);font-family:inherit;font-size:13px;font-weight:600;padding:9px 8px;border-radius:9px;cursor:pointer}
+  .mode-toggle button.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
 
+  /* ─── CARTE NUMÉRIQUE (pilotée par variables de modèle) ───────── */
   .card{
-    background:linear-gradient(160deg,var(--panel) 0%,var(--panel2) 100%);
-    border:1px solid var(--line);border-radius:24px;overflow:hidden;
-    box-shadow:0 20px 50px rgba(0,0,0,.5);
+    background:var(--c-bg);color:var(--c-text);font-family:var(--f-body);
+    border:1px solid var(--c-line);border-radius:24px;overflow:hidden;position:relative;
+    box-shadow:0 20px 50px rgba(0,0,0,.45);
   }
-  .card-banner{height:108px;position:relative;overflow:hidden;
-    background:
-      radial-gradient(120% 150% at 82% -30%, rgba(96,165,250,.55), transparent 58%),
-      linear-gradient(120deg, var(--accent2), #0f2447 55%, #0a1628);
-  }
-  .card-banner::before{content:"";position:absolute;inset:0;opacity:.5;
-    background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);
-    background-size:26px 26px;}
-  .card-banner .dark-logo{z-index:2}
-  .card-body{padding:0 26px 26px;margin-top:-44px}
-  .card-avatar{
-    position:relative;z-index:3; /* passe AU-DESSUS du bandeau (corrige le rognage) */
-    width:92px;height:92px;border-radius:50%;border:3px solid var(--panel);
-    background:linear-gradient(160deg,#16233a,#0b1222) center/cover no-repeat;
+  .card .ph,.cardprint .ph{opacity:.42}
+  .c-band{position:relative;height:110px;background:var(--c-band);color:var(--c-onband)}
+  .c-body{padding:26px 26px 26px;position:relative}
+  .c-avatar{
+    width:92px;height:92px;border-radius:50%;border:3px solid var(--c-solid);flex-shrink:0;
+    background:var(--c-accent) center/cover no-repeat;color:var(--c-onaccent);
     display:flex;align-items:center;justify-content:center;
-    font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:700;letter-spacing:.02em;color:#fff;
-    box-shadow:0 0 0 2px var(--accent-text), 0 10px 24px rgba(0,0,0,.45);
+    font-family:var(--f-head);font-size:32px;font-weight:700;box-shadow:0 8px 22px rgba(0,0,0,.25);position:relative;z-index:2;
   }
-  .card-name{font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,sans-serif;
-    font-size:25px;font-weight:700;margin-top:16px;letter-spacing:-.4px;
-    position:relative;padding-bottom:11px;}
-  .card-name::after{content:"";position:absolute;left:0;bottom:0;width:48px;height:2px;border-radius:2px;
-    background:linear-gradient(90deg,var(--accent-text),transparent)}
-  .card-title{color:var(--accent-text,#a5b4fc);font-weight:600;font-size:14px;margin-top:10px;letter-spacing:.01em}
-  .card-company{color:var(--muted);font-size:13px;margin-top:3px;letter-spacing:.02em}
-  .card-bio{color:var(--muted);font-size:13.5px;margin-top:14px;white-space:pre-wrap}
+  .c-name{font-family:var(--f-head);font-size:calc(26px * var(--f-scale));font-weight:700;line-height:1.08;margin-top:16px;letter-spacing:-.01em;overflow-wrap:anywhere}
+  .c-rule{width:44px;height:3px;border-radius:3px;background:var(--c-accent);margin-top:12px}
+  .c-title{color:var(--c-accent);font-weight:600;font-size:14px;margin-top:12px}
+  .c-company{color:var(--c-muted);font-size:13px;margin-top:2px}
+  .c-bio{color:var(--c-muted);font-size:13.5px;margin-top:12px;white-space:pre-wrap}
+  .c-contacts{margin-top:20px;display:flex;flex-direction:column;gap:2px;text-align:left}
+  .c-row{display:flex;align-items:center;gap:12px;padding:9px 8px;border-radius:10px;color:var(--c-text);text-decoration:none;font-size:14px}
+  a.c-row:hover{background:var(--c-chip)}
+  .c-row .ico{width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--c-chip);border:1px solid var(--c-line);color:var(--c-accent)}
+  .c-row .ico svg{width:18px;height:18px}
+  .c-row .val{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .c-socials{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+  .c-soc{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--c-chip);color:var(--c-text);text-decoration:none}
+  .c-soc:hover{background:var(--c-accent);color:var(--c-onaccent)}
+  .c-soc svg{width:20px;height:20px}
+  .c-actions{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .c-btn{border:none;border-radius:12px;padding:12px 10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--f-body)}
+  .c-btn:active{transform:scale(.96)}
+  .c-primary{background:var(--c-accent);color:var(--c-onaccent)}
+  .c-ghost{background:var(--c-chip);color:var(--c-text);border:1px solid var(--c-line)}
 
-  .contact-list{margin-top:20px;display:flex;flex-direction:column;gap:2px}
-  .contact-row{
-    display:flex;align-items:center;gap:12px;padding:10px 8px;border-radius:10px;
-    color:var(--text);text-decoration:none;font-size:14px;transition:background .12s;
-  }
-  .contact-row:hover{background:rgba(255,255,255,.04)}
-  .contact-row .ico{
-    width:36px;height:36px;border-radius:10px;flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;
-    background:rgba(201,169,92,.10);border:1px solid rgba(201,169,92,.28);
-    color:var(--accent-text,#a5b4fc);transition:background .15s,border-color .15s;
-  }
-  .contact-row:hover .ico{background:rgba(201,169,92,.18);border-color:rgba(201,169,92,.5)}
-  .contact-row .ico svg{width:18px;height:18px}
-  .contact-row .val{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  /* Logo (3 formes : image importée, initiales, icône métier) */
+  .lg-img{display:block;object-fit:contain}
+  .lg-mono,.lg-icon{display:flex;align-items:center;justify-content:center;font-family:var(--f-head);font-weight:700;letter-spacing:.02em}
+  .lg-mono{background:var(--c-accent);color:var(--c-onaccent)}
+  .lg-icon{background:var(--c-chip);color:var(--c-accent);border:1px solid var(--c-line)}
+  .lg-icon svg{width:56%;height:56%}
+  .lg.on-band{background:transparent;color:var(--c-onband);border:2px solid currentColor}
+  .tint-white{filter:brightness(0) invert(1)}
+  .tint-black{filter:brightness(0)}
+  .card .lg-img{height:40px;max-width:150px}
+  .card .lg-mono,.card .lg-icon{width:44px;height:44px;border-radius:12px;font-size:17px}
 
-  .socials{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
-  .social-btn{
-    width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;
-    background:rgba(255,255,255,.06);color:var(--text);text-decoration:none;transition:transform .1s,background .15s;
-  }
-  .social-btn:hover{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
-  .social-btn:active{transform:scale(.9)}
-  .social-btn svg{width:20px;height:20px}
-
-  .card-actions{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  /* Mises en page */
+  .lay-banner .c-band .c-logo{position:absolute;top:18px;right:20px}
+  .lay-banner .c-body{padding-top:0;margin-top:-46px}
+  .lay-center .c-body{text-align:center;padding-top:30px}
+  .lay-center .c-logo{display:flex;justify-content:center;margin-bottom:20px}
+  .lay-center .c-avatar{margin:0 auto}
+  .lay-center .c-rule{margin-left:auto;margin-right:auto}
+  .lay-center .c-socials{justify-content:center}
+  .lay-left .c-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px}
+  .lay-left .c-avatar{width:68px;height:68px;font-size:24px}
+  .lay-bold .c-band{height:auto;min-height:210px;padding:20px 24px 24px;display:flex;flex-direction:column;justify-content:space-between;gap:28px}
+  .lay-bold .c-hero .c-name{font-size:calc(34px * var(--f-scale));margin-top:0;color:var(--c-onband)}
+  .lay-bold .c-hero .c-title{color:var(--c-onband);opacity:.85;margin-top:8px}
+  .lay-bold.has-avatar .c-hero{padding-right:96px}
+  .lay-bold .c-avatar{position:absolute;right:22px;bottom:-40px;width:84px;height:84px}
+  .lay-bold .c-body{padding-top:22px}
+  .lay-bold .c-company{margin-top:0;font-size:14px}
 
   /* QR & partage */
-  .share-box{
-    margin-top:20px;background:var(--panel);border:1px solid var(--line);
-    border-radius:var(--radius);padding:20px;text-align:center;
-  }
-  .qr-holder{
-    width:200px;height:200px;margin:6px auto 14px;background:#fff;border-radius:12px;
-    padding:12px;display:flex;align-items:center;justify-content:center;
-  }
-  .qr-holder img,.qr-holder canvas{width:100%;height:100%;image-rendering:pixelated}
+  .share-box{margin-top:20px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;text-align:center}
+  .qr-holder{width:200px;height:200px;margin:6px auto 14px;background:#fff;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .qr-holder img{width:100%;height:100%;image-rendering:pixelated}
   .qr-hint{font-size:12px;color:var(--muted);margin-bottom:14px}
   .share-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
-  .toast{
-    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);
-    background:#10b981;color:#fff;padding:12px 22px;border-radius:30px;font-size:14px;font-weight:600;
-    box-shadow:0 10px 30px rgba(0,0,0,.4);transition:transform .3s;z-index:100;
-  }
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:#10b981;color:#fff;padding:12px 22px;border-radius:30px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.4);transition:transform .3s;z-index:100}
   .toast.show{transform:translateX(-50%) translateY(0)}
 
-  /* Mode lecture (carte partagée) */
-  body.view-mode .editor,body.view-mode .app-head p,body.view-mode #installBtn,body.view-mode .directory,body.view-mode .mode-toggle{display:none}
+  /* Mode lecture (carte reçue par lien / QR) */
+  body.view-mode .editor,body.view-mode .app-head,body.view-mode .mode-toggle{display:none}
   body.view-mode .layout{grid-template-columns:1fr;max-width:440px;margin:0 auto}
   .view-cta{display:none;margin-top:18px;text-align:center}
   body.view-mode .view-cta{display:block}
   .hidden{display:none!important}
 
-  /* Bouton installation */
-  #installBtn{
-    display:none;margin:14px auto 0;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
-    border:none;border-radius:30px;padding:11px 22px;font-size:14px;font-weight:700;
-    cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.4);
-  }
-  #installBtn:active{transform:scale(.96)}
+  #installBtn{display:none;margin:14px auto 0;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:30px;padding:11px 22px;font-size:14px;font-weight:700;cursor:pointer}
 
-  /* Présentation du QR en grand (pour le montrer à quelqu'un) */
-  #qrFull{
-    position:fixed;inset:0;z-index:200;display:none;
-    flex-direction:column;align-items:center;justify-content:center;gap:22px;
-    background:rgba(2,6,23,.97);padding:24px;text-align:center;
-  }
+  #qrFull{position:fixed;inset:0;z-index:200;display:none;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:rgba(2,6,23,.97);padding:24px;text-align:center}
   #qrFull.show{display:flex}
-  #qrFull .qrbig{
-    width:min(78vw,360px);height:min(78vw,360px);background:#fff;border-radius:20px;
-    padding:16px;display:flex;align-items:center;justify-content:center;
-  }
+  #qrFull .qrbig{width:min(78vw,360px);height:min(78vw,360px);background:#fff;border-radius:20px;padding:16px;display:flex;align-items:center;justify-content:center}
   #qrFull .qrbig img{width:100%;height:100%;image-rendering:pixelated}
   #qrFull .who{color:#fff;font-size:22px;font-weight:800}
   #qrFull .sub{color:#94a3b8;font-size:14px;max-width:320px}
-  #qrFull .close{
-    margin-top:6px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3);
-    border-radius:30px;padding:10px 26px;font-size:15px;font-weight:700;cursor:pointer;
-  }
-  .qr-holder{cursor:pointer}
+  #qrFull .close{margin-top:6px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:30px;padding:10px 26px;font-size:15px;font-weight:700;cursor:pointer}
 
-  /* ─── Sélecteur de mode (Numérique / Imprimable) ──────────────── */
-  .directory{
-    max-width:440px;margin:18px auto 0;text-align:left;
-    background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;
-  }
-  .directory label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:700;margin-bottom:7px}
-  .directory select{
-    width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);
-    border-radius:10px;padding:11px 12px;font-size:14px;font-family:inherit;cursor:pointer;
-  }
-  .directory select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,130,246,.2)}
-
-  .mode-toggle{
-    display:flex;gap:4px;margin:0 auto 16px;max-width:540px;
-    background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:4px;
-  }
-  .mode-toggle button{
-    flex:1;border:none;background:transparent;color:var(--muted);
-    font-family:inherit;font-size:13px;font-weight:600;padding:9px 8px;border-radius:9px;
-    cursor:pointer;transition:background .15s,color .15s;
-  }
-  .mode-toggle button.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
-
-  /* Bascule d'affichage des deux cartes */
+  /* Bascule numérique / imprimable */
   .cardprint{display:none}
   body[data-cardmode="print"] .card{display:none}
   body[data-cardmode="print"] .cardprint{display:flex}
-  body[data-cardmode="print"] .share-box{display:none} /* le QR est déjà sur la carte */
+  body[data-cardmode="print"] .share-box{display:none}
 
-  /* Logo « A » Cadence (hérite de currentColor) */
-  .logo-mark{display:inline-flex;align-items:center;justify-content:center}
-  .logo-mark svg,.logo-mark img{height:1em;width:auto;display:block}
-  .logo-mark img.logo-white{filter:brightness(0) invert(1)}
-  .logo-mark.logo-missing{display:none} /* pas de faux logo : on masque si le fichier officiel manque */
-
-  /* Logo discret sur la carte sombre */
-  .dark-logo{
-    position:absolute;top:18px;right:20px;color:rgba(255,255,255,.85);
-    font-size:30px;opacity:.92;
-  }
-  .dark-logo svg{filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
-
-  /* ─── Carte IMPRIMABLE (format 85×55, fond blanc) ──────────────── */
+  /* ─── CARTE IMPRIMABLE 85×55 (reprend le modèle) ─────────────── */
   .cardprint{
-    flex-direction:column;justify-content:space-between;
-    width:100%;max-width:540px;margin:0 auto;aspect-ratio:85/55;
-    background:#ffffff;color:#0f1b2d;border-radius:16px;overflow:hidden;
-    box-shadow:0 24px 60px rgba(0,0,0,.5);position:relative;
-    padding:7% 7.4%;
-    font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    font-size:clamp(10px,2.75vw,15.5px);
-    border:1px solid #e7ebf0;
+    flex-direction:column;justify-content:space-between;width:100%;max-width:540px;margin:0 auto;aspect-ratio:85/55;
+    background:var(--c-bg);color:var(--c-text);border-radius:16px;overflow:hidden;position:relative;
+    box-shadow:0 24px 60px rgba(0,0,0,.5);padding:7% 7.4%;
+    font-family:var(--f-body);font-size:clamp(10px,2.75vw,15.5px);border:1px solid var(--c-line);
   }
-  .cp-top{display:flex;align-items:center;gap:.75em}
-  .cp-logo{color:#16233a;font-size:2.7em;line-height:1}
-  .cp-brand{display:flex;flex-direction:column;line-height:1}
-  .cp-brand b{font-size:1.45em;font-weight:700;letter-spacing:.16em;color:#16233a}
-  .cp-brand i{font-size:.62em;font-style:normal;letter-spacing:.34em;color:#b08a3e;margin-top:.5em}
-
-  .cp-id{margin-top:.2em}
-  .cp-name{font-size:1.95em;font-weight:300;line-height:1.04;letter-spacing:-.01em;color:#0f1b2d}
+  .cardprint.cp-band{padding-left:10.5%}
+  .cardprint.cp-band::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4.2%;background:var(--c-band)}
+  .cp-top{display:flex;align-items:center;gap:.7em;min-height:2.6em}
+  .cardprint .lg-img{height:2.6em;max-width:9em}
+  .cardprint .lg-mono,.cardprint .lg-icon{width:2.6em;height:2.6em;border-radius:.6em;font-size:1em}
+  .cp-brand{font-family:var(--f-head);font-weight:700;font-size:1.02em;letter-spacing:.12em;text-transform:uppercase;line-height:1.15}
+  .cp-name{font-family:var(--f-head);font-size:calc(1.9em * var(--f-scale));font-weight:400;line-height:1.04;letter-spacing:-.01em}
   .cp-name b{display:block;font-weight:700}
-  .cp-title{font-size:.82em;color:#9a7a35;font-weight:500;margin-top:.45em;letter-spacing:.01em}
-
-  .cp-rule{width:3em;height:2px;background:linear-gradient(90deg,#c9a95c,#e6cd8f);margin:.7em 0 .2em;border-radius:2px}
-
+  .cp-title{font-size:.82em;color:var(--c-accent);font-weight:600;margin-top:.45em}
+  .cp-rule{width:3em;height:2px;background:var(--c-accent);margin:.6em 0 .2em;border-radius:2px}
   .cp-contacts{display:flex;flex-direction:column;gap:.32em;max-width:62%}
-  .cp-row{display:flex;align-items:center;gap:.6em;font-size:.8em;color:#33405a}
-  .cp-row .ico{width:1.55em;height:1.55em;flex-shrink:0;color:#16233a}
+  .cp-row{display:flex;align-items:center;gap:.6em;font-size:.8em;color:var(--c-text)}
+  .cp-row .ico{width:1.4em;height:1.4em;flex-shrink:0;color:var(--c-accent)}
   .cp-row .ico svg{width:100%;height:100%}
   .cp-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
   .cp-qr{position:absolute;right:7.4%;bottom:7%;display:flex;flex-direction:column;align-items:center;gap:.35em}
-  .cp-qrimg{width:6.4em;height:6.4em;background:#fff;border:1px solid #e7ebf0;border-radius:6px;padding:.2em;display:flex;align-items:center;justify-content:center}
+  .cp-qrimg{width:6.4em;height:6.4em;background:#fff;border-radius:6px;padding:.25em;display:flex;align-items:center;justify-content:center}
   .cp-qrimg img{width:100%;height:100%;image-rendering:pixelated}
-  .cp-qr small{font-size:.56em;color:#7a869c;letter-spacing:.02em}
+  .cp-qr small{font-size:.56em;color:var(--c-muted)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="app-head">
     <h1>Carte de visite numérique</h1>
-    <p>Renseignez vos infos, partagez votre carte par QR code ou par lien.</p>
-    <div class="directory" id="directory">
-      <label for="profilePicker">Annuaire Cadence</label>
-      <select id="profilePicker"></select>
-      <a href="annuaire.html" style="display:inline-block;margin-top:10px;font-size:12px;color:#60A5FA;text-decoration:none">Voir l'annuaire complet (vignettes) →</a>
-    </div>
+    <p>Choisissez un modèle, ajoutez vos infos et partagez votre carte par QR code.</p>
     <button id="installBtn">📲 Installer l'application</button>
   </div>
 
   <div class="layout">
     <!-- ÉDITEUR -->
     <div class="editor" id="editor">
-      <h2>Vos informations</h2>
 
-      <div class="section-label" style="border:none;padding-top:0;margin-top:0">Photo</div>
+      <div class="section-label"><span><span class="step">1</span>Modèle</span></div>
+      <div class="tpl-grid" id="tplGrid"></div>
+
+      <div class="section-label"><span><span class="step">2</span>Logo</span></div>
+      <div class="seg" id="logoSeg">
+        <button data-m="none">Aucun</button>
+        <button data-m="mono">Initiales</button>
+        <button data-m="icon">Icône</button>
+        <button data-m="upload">Mon logo</button>
+      </div>
+      <div class="logo-panel hidden" id="logoIconPanel">
+        <div class="icon-grid" id="iconGrid"></div>
+      </div>
+      <div class="logo-panel hidden" id="logoUploadPanel">
+        <div class="upload-row">
+          <div class="logo-preview" id="logoPreview">Aucun fichier</div>
+          <div class="stack">
+            <button class="btn btn-ghost btn-sm" id="logoBtn">Importer un logo</button>
+            <button class="btn btn-ghost btn-sm" id="logoClear">Retirer</button>
+          </div>
+          <input type="file" id="logoInput" accept="image/png,image/jpeg,image/svg+xml,image/webp" hidden>
+        </div>
+        <div class="sub-label">Couleur du logo</div>
+        <div class="seg" id="tintSeg">
+          <button data-tint="orig">D'origine</button>
+          <button data-tint="white">Blanc</button>
+          <button data-tint="black">Noir</button>
+        </div>
+        <div class="hint">PNG transparent ou SVG conseillé. Le logo apparaît sur votre carte et votre carte imprimable ; la personne qui scanne votre QR voit vos initiales à la place.</div>
+      </div>
+      <div class="hint hidden" id="monoHint">Initiales calculées à partir de l'entreprise (ou de votre nom).</div>
+
+      <div class="section-label"><span><span class="step">3</span>Vos informations</span></div>
       <div class="photo-row">
         <div class="photo-preview" id="photoPreview">👤</div>
-        <div class="photo-btns">
-          <button class="btn btn-ghost btn-sm" id="photoBtn">Choisir une photo</button>
+        <div class="stack">
+          <button class="btn btn-ghost btn-sm" id="photoBtn">Ajouter une photo</button>
           <button class="btn btn-ghost btn-sm" id="photoClear">Retirer</button>
         </div>
         <input type="file" id="photoInput" accept="image/*" hidden>
       </div>
-
-      <div class="section-label">Identité</div>
-      <div class="field">
+      <div class="field" style="margin-top:12px">
         <label>Nom complet</label>
-        <input id="f-name" placeholder="Jeanne Dupont" autocomplete="name">
+        <input id="f-name" placeholder="Camille Martin" autocomplete="name">
       </div>
       <div class="row2">
-        <div class="field">
-          <label>Fonction / Métier</label>
-          <input id="f-title" placeholder="Designer UX">
-        </div>
-        <div class="field">
-          <label>Entreprise</label>
-          <input id="f-company" placeholder="Studio Créatif">
-        </div>
+        <div class="field"><label>Fonction / Métier</label><input id="f-title" placeholder="Photographe"></div>
+        <div class="field"><label>Entreprise</label><input id="f-company" placeholder="Studio Lumière" autocomplete="organization"></div>
       </div>
       <div class="field">
         <label>Présentation (optionnel)</label>
         <textarea id="f-bio" placeholder="Quelques mots sur vous…"></textarea>
       </div>
 
-      <div class="section-label">Coordonnées</div>
+      <div class="sub-label">Coordonnées</div>
       <div class="row2">
-        <div class="field">
-          <label>Mobile</label>
-          <input id="f-phone" type="tel" placeholder="+33 6 12 34 56 78">
-        </div>
-        <div class="field">
-          <label>Téléphone fixe (agence)</label>
-          <input id="f-phone2" type="tel" placeholder="+33 1 ..">
-        </div>
+        <div class="field"><label>Mobile</label><input id="f-phone" type="tel" placeholder="06 12 34 56 78" autocomplete="tel"></div>
+        <div class="field"><label>Téléphone fixe</label><input id="f-phone2" type="tel" placeholder="01 23 45 67 89"></div>
       </div>
-      <div class="field">
-        <label>Email</label>
-        <input id="f-email" type="email" placeholder="jeanne@exemple.fr">
-      </div>
-      <div class="field">
-        <label>Site web</label>
-        <input id="f-website" type="url" placeholder="https://exemple.fr">
-      </div>
-      <div class="field">
-        <label>Adresse</label>
-        <input id="f-address" placeholder="12 rue des Lilas, 75011 Paris">
-      </div>
+      <div class="field"><label>Email</label><input id="f-email" type="email" placeholder="camille@exemple.fr" autocomplete="email"></div>
+      <div class="field"><label>Site web</label><input id="f-website" type="url" placeholder="exemple.fr"></div>
+      <div class="field"><label>Adresse</label><input id="f-address" placeholder="12 rue des Lilas, 75011 Paris" autocomplete="street-address"></div>
 
-      <div class="section-label">Réseaux & liens</div>
+      <div class="sub-label">Réseaux & liens</div>
       <div id="links"></div>
       <button class="btn btn-ghost btn-sm" id="addLink">+ Ajouter un lien</button>
 
-      <div class="section-label">Couleur du thème</div>
+      <div class="section-label"><span><span class="step">4</span>Personnaliser</span><button class="link-btn" id="restoreTpl">Rétablir le modèle</button></div>
+      <div class="sub-label" style="margin-top:0">Typographie</div>
+      <div class="chips" id="fontChips"></div>
+      <div class="sub-label">Couleurs</div>
       <div class="swatches" id="swatches"></div>
 
-      <div style="margin-top:24px;display:flex;gap:10px">
-        <button class="btn btn-ghost btn-block" id="resetBtn">Réinitialiser</button>
+      <div style="margin-top:24px">
+        <button class="btn btn-ghost btn-block" id="resetBtn">Tout effacer</button>
       </div>
     </div>
 
@@ -410,42 +351,8 @@
         <button data-mode="print">Imprimable</button>
       </div>
 
-      <div class="card" id="card">
-        <div class="card-banner"><span class="dark-logo logo-mark" id="darkLogo"></span></div>
-        <div class="card-body">
-          <div class="card-avatar" id="cardAvatar">?</div>
-          <div class="card-name" id="cardName">Votre nom</div>
-          <div class="card-title" id="cardTitle"></div>
-          <div class="card-company" id="cardCompany"></div>
-          <div class="card-bio" id="cardBio"></div>
-
-          <div class="contact-list" id="contactList"></div>
-          <div class="socials" id="socialList"></div>
-
-          <div class="card-actions">
-            <button class="btn btn-primary" id="vcardBtn">📇 Enregistrer le contact</button>
-            <button class="btn btn-ghost" id="shareBtn">🔗 Partager</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- CARTE IMPRIMABLE (fond blanc, format 85×55) -->
-      <div class="cardprint" id="cardPrint">
-        <div class="cp-top">
-          <span class="cp-logo logo-mark" id="cpLogo"></span>
-          <span class="cp-brand"><b>CADENCE</b><i>ARCHITECTES</i></span>
-        </div>
-        <div class="cp-id">
-          <div class="cp-name" id="cpName"></div>
-          <div class="cp-title" id="cpTitle"></div>
-        </div>
-        <div class="cp-rule"></div>
-        <div class="cp-contacts" id="cpContacts"></div>
-        <div class="cp-qr">
-          <div class="cp-qrimg" id="cpQR"></div>
-          <small>Scannez pour m'enregistrer</small>
-        </div>
-      </div>
+      <div class="card" id="card"></div>
+      <div class="cardprint" id="cardPrint"></div>
 
       <div class="share-box" id="shareBox">
         <div class="qr-holder" id="qrHolder"></div>
@@ -458,13 +365,12 @@
       </div>
 
       <div class="view-cta">
-        <a class="btn btn-primary btn-block" href="?">✨ Créer ma propre carte</a>
+        <a class="btn btn-primary btn-block" href="./">✨ Créer ma propre carte</a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Écran QR plein écran (pour le présenter à quelqu'un) -->
 <div id="qrFull">
   <div class="who" id="qrFullName">Ma carte</div>
   <div class="qrbig" id="qrFullCode"></div>
@@ -474,16 +380,15 @@
 
 <div class="toast" id="toast">Copié !</div>
 
-<!-- Bibliothèque QR embarquée (fonctionne hors-ligne) -->
 <script src="./qrcode.min.js"></script>
-<!-- Annuaire (source de vérité partagée avec annuaire.html) -->
-<script src="assets/js/profiles.js"></script>
 <script>
 (function(){
   "use strict";
+  const $=id=>document.getElementById(id);
+  const esc=s=>String(s==null?'':s).replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]));
 
-  // ─── Icônes SVG (Feather-style) ────────────────────────────────
-  const ICONS = {
+  // ─── Icônes contacts / réseaux ─────────────────────────────────
+  const ICONS={
     phone:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
     mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
     globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
@@ -498,489 +403,501 @@
     tiktok:'<path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>',
     link:'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'
   };
-  function svg(name){
-    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[name]||ICONS.link)+'</svg>';
-  }
+  // ─── Icônes métier (logo par défaut) ───────────────────────────
+  const BIZ=[
+    {id:'briefcase',label:'Conseil',p:'<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>'},
+    {id:'compass',label:'Architecte',p:'<circle cx="12" cy="5" r="2"/><path d="m3 21 8.02-14.26"/><path d="m12.99 6.74 1.93 3.44"/><path d="M19 12c-3.6 3.6-10.4 3.6-14 0"/><path d="m21 21-2.16-3.84"/>'},
+    {id:'home',label:'Immobilier',p:'<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>'},
+    {id:'tool',label:'Artisan',p:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>'},
+    {id:'camera',label:'Photo',p:'<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>'},
+    {id:'scissors',label:'Coiffure',p:'<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/>'},
+    {id:'star',label:'Beauté',p:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'},
+    {id:'coffee',label:'Restaurant',p:'<path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>'},
+    {id:'heart',label:'Santé',p:'<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>'},
+    {id:'activity',label:'Sport',p:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>'},
+    {id:'code',label:'Tech',p:'<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>'},
+    {id:'pen',label:'Design',p:'<path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/>'},
+    {id:'feather',label:'Écriture',p:'<path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/>'},
+    {id:'key',label:'Services',p:'<path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/>'}
+  ];
+  const svgWrap=p=>'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';
+  const svg=name=>svgWrap(ICONS[name]||ICONS.link);
+  const bizSvg=id=>svgWrap((BIZ.find(b=>b.id===id)||BIZ[0]).p);
 
-  // Logo OFFICIEL Cadence (fichier fourni, jamais recomposé).
-  // Fichier monochrome (artwork sombre sur fond transparent) :
-  //  · carte blanche  → tel quel
-  //  · carte sombre   → inversé en blanc via CSS (.logo-white)
-  const LOGO_SRC = 'assets/logo-cadence.svg';
-  function injectLogos(){
-    const mk=(el,white)=>{ if(!el) return;
-      el.innerHTML='<img src="'+LOGO_SRC+'" alt="Cadence Architectes"'
-        +(white?' class="logo-white"':'')
-        +' onerror="this.closest(\'.logo-mark\').classList.add(\'logo-missing\')">';
-    };
-    mk($('darkLogo'),true);
-    mk($('cpLogo'),false);
-  }
-
-  const SOCIAL_TYPES = [
-    {id:'linkedin',label:'LinkedIn'},
-    {id:'instagram',label:'Instagram'},
-    {id:'twitter',label:'X / Twitter'},
-    {id:'facebook',label:'Facebook'},
-    {id:'github',label:'GitHub'},
-    {id:'youtube',label:'YouTube'},
-    {id:'tiktok',label:'TikTok'},
-    {id:'whatsapp',label:'WhatsApp'},
-    {id:'link',label:'Autre lien'}
+  const SOCIAL_TYPES=[
+    {id:'linkedin',label:'LinkedIn'},{id:'instagram',label:'Instagram'},{id:'twitter',label:'X / Twitter'},
+    {id:'facebook',label:'Facebook'},{id:'github',label:'GitHub'},{id:'youtube',label:'YouTube'},
+    {id:'tiktok',label:'TikTok'},{id:'whatsapp',label:'WhatsApp'},{id:'link',label:'Autre lien'}
   ];
 
-  const THEMES = [
-    {a:'#4f46e5',b:'#9333ea',t:'#a5b4fc'},
-    {a:'#0ea5e9',b:'#2563eb',t:'#7dd3fc'},
-    {a:'#10b981',b:'#059669',t:'#6ee7b7'},
-    {a:'#f59e0b',b:'#ea580c',t:'#fcd34d'},
-    {a:'#ec4899',b:'#be185d',t:'#f9a8d4'},
-    {a:'#ef4444',b:'#b91c1c',t:'#fca5a5'},
-    {a:'#14b8a6',b:'#0d9488',t:'#5eead4'},
-    {a:'#64748b',b:'#334155',t:'#cbd5e1'},
-    {a:'#3B82F6',b:'#1E3A8A',t:'#C9A95C'}  /* AXION — bleu nuit + or (défaut Cadence) */
-  ];
+  // ─── Typographies (paires titre / texte) ───────────────────────
+  const FONTS={
+    moderne:    {label:'Moderne',     head:"'Inter'",              body:"'Inter'"},
+    geometrique:{label:'Géométrique', head:"'Space Grotesk'",      body:"'Inter'"},
+    elegant:    {label:'Élégant',     head:"'Playfair Display'",   body:"'Lato'"},
+    classique:  {label:'Classique',   head:"'Cormorant Garamond'", body:"'Montserrat'", scale:1.12},
+    impact:     {label:'Impact',      head:"'Archivo Black'",      body:"'Archivo'"},
+    creatif:    {label:'Créatif',     head:"'Syne'",               body:"'DM Sans'"},
+    tech:       {label:'Tech',        head:"'JetBrains Mono'",     body:"'JetBrains Mono'", scale:.86},
+    doux:       {label:'Doux',        head:"'Fraunces'",           body:"'Nunito'"},
+    artisan:    {label:'Artisan',     head:"'Bebas Neue'",         body:"'Source Sans 3'", scale:1.3}
+  };
 
-  // ─── Annuaire Cadence ──────────────────────────────────────────
-  // AGENCY, PROFILES, GROUP_LABELS et profileToState() sont fournis par
-  // assets/js/profiles.js (source de vérité unique, partagée avec annuaire.html).
+  // ─── Palettes ──────────────────────────────────────────────────
+  // bg : fond · solid : fond uni (bordure avatar) · band : bandeau · onBand : texte sur bandeau
+  // bandAccent : le bandeau suit la couleur d'accent personnalisée
+  const PALETTES={
+    blanc:   {bg:'#ffffff',text:'#111111',muted:'#6b7280',accent:'#111111',onAccent:'#ffffff',band:'#f1f2f4',onBand:'#111111',line:'#e5e7eb',chip:'rgba(0,0,0,.05)'},
+    creme:   {bg:'#f8f4ec',text:'#1c2a44',muted:'#6f6a5e',accent:'#9a7630',onAccent:'#ffffff',band:'linear-gradient(120deg,#1c2a44,#2f4468)',onBand:'#f8f4ec',line:'#e6dfd0',chip:'rgba(154,118,48,.10)'},
+    nuit:    {bg:'linear-gradient(160deg,#1e293b,#172033)',solid:'#1e293b',text:'#e2e8f0',muted:'#94a3b8',accent:'#C9A95C',onAccent:'#0a1628',band:'radial-gradient(120% 150% at 82% -30%,rgba(96,165,250,.55),transparent 58%),linear-gradient(120deg,#1E3A8A,#0f2447 55%,#0a1628)',onBand:'#ffffff',line:'#334155',chip:'rgba(201,169,92,.12)'},
+    corail:  {bg:'#fff7f3',text:'#1a1a1a',muted:'#6b5b55',accent:'#e8482a',onAccent:'#ffffff',band:'#e8482a',onBand:'#ffffff',line:'#f3d9cf',chip:'rgba(232,72,42,.10)',bandAccent:true},
+    aurore:  {bg:'#ffffff',text:'#1f1235',muted:'#6b6280',accent:'#9333ea',onAccent:'#ffffff',band:'linear-gradient(120deg,#ec4899,#9333ea 60%,#4f46e5)',onBand:'#ffffff',line:'#ece6f5',chip:'rgba(147,51,234,.08)'},
+    terminal:{bg:'#0b0f14',text:'#e6edf3',muted:'#7d8590',accent:'#22c55e',onAccent:'#0b0f14',band:'#111820',onBand:'#22c55e',line:'#1f2a37',chip:'rgba(34,197,94,.10)'},
+    sauge:   {bg:'#eef2ea',text:'#22352a',muted:'#5f6f62',accent:'#2f5d43',onAccent:'#ffffff',band:'#2f5d43',onBand:'#ffffff',line:'#d6dfd0',chip:'rgba(47,93,67,.10)',bandAccent:true},
+    kraft:   {bg:'#ede1cc',text:'#3b2614',muted:'#7a6148',accent:'#8a4b1e',onAccent:'#ffffff',band:'#3b2614',onBand:'#ede1cc',line:'#d8c7a8',chip:'rgba(138,75,30,.10)'},
+    ocean:   {bg:'#f2f7fb',text:'#0c2a43',muted:'#5b7083',accent:'#0369a1',onAccent:'#ffffff',band:'linear-gradient(120deg,#0c4a6e,#0ea5e9)',onBand:'#ffffff',line:'#d7e5ef',chip:'rgba(3,105,161,.09)'},
+    noir:    {bg:'#111111',text:'#f5f5f5',muted:'#a3a3a3',accent:'#f5f5f5',onAccent:'#111111',band:'#000000',onBand:'#ffffff',line:'#2a2a2a',chip:'rgba(255,255,255,.07)'}
+  };
+
+  // ─── Modèles = mise en page + typo + palette ───────────────────
+  const TEMPLATES=[
+    {id:'elegant', name:'Élégant',   layout:'banner', font:'elegant',     palette:'creme'},
+    {id:'minimal', name:'Minimal',   layout:'center', font:'moderne',     palette:'blanc'},
+    {id:'nuit',    name:'Nuit & or', layout:'banner', font:'geometrique', palette:'nuit'},
+    {id:'impact',  name:'Impact',    layout:'bold',   font:'impact',      palette:'corail'},
+    {id:'creatif', name:'Créatif',   layout:'banner', font:'creatif',     palette:'aurore'},
+    {id:'tech',    name:'Tech',      layout:'left',   font:'tech',        palette:'terminal'},
+    {id:'nature',  name:'Nature',    layout:'center', font:'doux',        palette:'sauge'},
+    {id:'artisan', name:'Artisan',   layout:'left',   font:'artisan',     palette:'kraft'},
+    {id:'corporate',name:'Corporate',layout:'left',   font:'classique',   palette:'ocean'},
+    {id:'noir',    name:'Noir',      layout:'bold',   font:'elegant',     palette:'noir'}
+  ];
+  const HAS_BAND={banner:1,bold:1};
 
   // ─── État ──────────────────────────────────────────────────────
-  const STORE_KEY = 'carte-visite-v1';
-  // Carte par défaut : Florian (sinon premier de l'annuaire).
-  let state = profileToState(PROFILES.find(p=>p.id==='f-clarisse')||PROFILES[0]);
-
-  // ─── Utilitaires ───────────────────────────────────────────────
-  const $ = id => document.getElementById(id);
-  const esc = s => String(s||'').replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
-
-  function encodeState(s){
-    const json = JSON.stringify(s);
-    return btoa(unescape(encodeURIComponent(json))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  const STORE_KEY='carte-visite-v2', OLD_KEY='carte-visite-v1';
+  const BLANK={name:'',title:'',company:'',bio:'',phone:'',phone2:'',email:'',website:'',address:'',photo:'',links:[],
+    template:'elegant',font:'',palette:'',accent:'',logoMode:'mono',logoIcon:'briefcase',logo:'',logoTint:'orig'};
+  const blank=()=>JSON.parse(JSON.stringify(BLANK));
+  function normalize(o){
+    const s=Object.assign(blank(),o||{});
+    if(!Array.isArray(s.links)) s.links=[];
+    if(!TEMPLATES.some(t=>t.id===s.template)) s.template=BLANK.template;
+    if(s.font && !FONTS[s.font]) s.font='';
+    if(s.palette && !PALETTES[s.palette]) s.palette='';
+    if(!['none','mono','icon','upload'].includes(s.logoMode)) s.logoMode='mono';
+    delete s.theme; // ancien format
+    return s;
   }
-  function decodeState(str){
-    try{
-      const b = str.replace(/-/g,'+').replace(/_/g,'/');
-      return JSON.parse(decodeURIComponent(escape(atob(b))));
-    }catch(e){return null;}
-  }
+  let state=blank();
+  let viewMode=false;
 
-  let toastTimer;
-  function toast(msg){
-    const t=$('toast'); t.textContent=msg; t.classList.add('show');
-    clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),1900);
+  // Exemples affichés en grisé tant que le champ est vide (éditeur uniquement)
+  const SAMPLE={name:'Camille Martin',title:'Photographe',company:'Studio Lumière',phone:'06 12 34 56 78',email:'camille@exemple.fr'};
+  function show(k){
+    if(state[k]) return {v:state[k],ph:false};
+    if(!viewMode && SAMPLE[k]) return {v:SAMPLE[k],ph:true};
+    return null;
   }
+  const initials=s=>String(s||'').trim().split(/\s+/).filter(Boolean).map(w=>w[0]).slice(0,2).join('').toUpperCase();
 
-  // ─── Photo : redimensionnement compact ─────────────────────────
-  function resizePhoto(file, cb){
-    const reader=new FileReader();
-    reader.onload=e=>{
-      const img=new Image();
-      img.onload=()=>{
-        const max=240;
-        let {width:w,height:h}=img;
-        const scale=Math.min(1,max/Math.max(w,h));
-        w=Math.round(w*scale); h=Math.round(h*scale);
-        const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
-        cv.getContext('2d').drawImage(img,0,0,w,h);
-        cb(cv.toDataURL('image/jpeg',0.82));
-      };
-      img.src=e.target.result;
-    };
-    reader.readAsDataURL(file);
+  // ─── Résolution du thème (modèle + surcharges) ─────────────────
+  function hexA(hex,a){const n=parseInt(hex.slice(1),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;}
+  function onColor(hex){
+    const n=parseInt(hex.slice(1),16);
+    const c=[n>>16&255,n>>8&255,n&255].map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);});
+    return (.2126*c[0]+.7152*c[1]+.0722*c[2])>.45?'#111111':'#ffffff';
   }
-
-  // ─── Rendu de l'éditeur (réseaux) ──────────────────────────────
-  function renderLinks(){
-    const box=$('links'); box.innerHTML='';
-    state.links.forEach((lk,i)=>{
-      const row=document.createElement('div'); row.className='link-item';
-      const opts=SOCIAL_TYPES.map(s=>`<option value="${s.id}"${s.id===lk.type?' selected':''}>${s.label}</option>`).join('');
-      row.innerHTML=`<select data-i="${i}" class="lk-type">${opts}</select>
-        <input data-i="${i}" class="lk-url" placeholder="URL ou identifiant" value="${esc(lk.value)}">
-        <button class="del" data-i="${i}" title="Supprimer">×</button>`;
-      box.appendChild(row);
-    });
-    box.querySelectorAll('.lk-type').forEach(el=>el.onchange=e=>{state.links[+e.target.dataset.i].type=e.target.value;sync();});
-    box.querySelectorAll('.lk-url').forEach(el=>el.oninput=e=>{state.links[+e.target.dataset.i].value=e.target.value;sync();});
-    box.querySelectorAll('.del').forEach(el=>el.onclick=e=>{state.links.splice(+e.target.dataset.i,1);renderLinks();sync();});
+  function tplOf(id){return TEMPLATES.find(t=>t.id===id)||TEMPLATES[0];}
+  function resolve(){
+    const t=tplOf(state.template);
+    const f=FONTS[state.font]||FONTS[t.font];
+    const p=Object.assign({},PALETTES[state.palette]||PALETTES[t.palette]);
+    if(/^#[0-9a-f]{6}$/i.test(state.accent)){
+      p.accent=state.accent; p.onAccent=onColor(state.accent); p.chip=hexA(state.accent,.11);
+      if(p.bandAccent){p.band=state.accent;p.onBand=p.onAccent;}
+    }
+    return {t,f,p,layout:t.layout};
+  }
+  function cssVars(r){
+    const {f,p}=r;
+    return `--c-bg:${p.bg};--c-solid:${p.solid||p.bg};--c-text:${p.text};--c-muted:${p.muted};--c-accent:${p.accent};`+
+      `--c-onaccent:${p.onAccent};--c-band:${p.band};--c-onband:${p.onBand};--c-line:${p.line};--c-chip:${p.chip};`+
+      `--f-head:${f.head},system-ui,sans-serif;--f-body:${f.body},system-ui,sans-serif;--f-scale:${f.scale||1}`;
   }
 
-  function renderSwatches(){
-    const box=$('swatches'); box.innerHTML='';
-    THEMES.forEach((th,i)=>{
-      const s=document.createElement('div');
-      s.className='swatch'+(i===state.theme?' sel':'');
-      s.style.background=`linear-gradient(135deg,${th.a},${th.b})`;
-      s.style.color=th.a;
-      s.onclick=()=>{state.theme=i;renderSwatches();sync();};
-      box.appendChild(s);
-    });
+  // ─── Logo ──────────────────────────────────────────────────────
+  function hasLogo(){return state.logoMode!=='none';}
+  function logoHTML(onBand){
+    let mode=state.logoMode;
+    if(mode==='none') return '';
+    if(mode==='upload' && !state.logo) mode='mono'; // lien partagé : le fichier ne voyage pas
+    if(mode==='upload') return `<img class="lg lg-img tint-${esc(state.logoTint)}" src="${esc(state.logo)}" alt="Logo">`;
+    const cls='lg'+(onBand?' on-band':'');
+    if(mode==='icon') return `<span class="${cls} lg-icon">${bizSvg(state.logoIcon)}</span>`;
+    const src=state.company||state.name||(viewMode?'':SAMPLE.company);
+    return `<span class="${cls} lg-mono">${esc(initials(src)||'•')}</span>`;
   }
 
-  // ─── Normalisation des liens vers une URL ──────────────────────
+  // ─── Liens ─────────────────────────────────────────────────────
   function linkToHref(lk){
-    const v=(lk.value||'').trim();
-    if(!v) return '';
+    const v=(lk.value||'').trim(); if(!v) return '';
     if(/^https?:\/\//i.test(v)) return v;
-    const handle=v.replace(/^@/,'');
+    const h=v.replace(/^@/,'');
     switch(lk.type){
-      case 'linkedin':  return 'https://www.linkedin.com/in/'+handle;
-      case 'instagram': return 'https://instagram.com/'+handle;
-      case 'twitter':   return 'https://x.com/'+handle;
-      case 'facebook':  return 'https://facebook.com/'+handle;
-      case 'github':    return 'https://github.com/'+handle;
-      case 'youtube':   return 'https://youtube.com/@'+handle;
-      case 'tiktok':    return 'https://tiktok.com/@'+handle;
+      case 'linkedin':  return 'https://www.linkedin.com/in/'+h;
+      case 'instagram': return 'https://instagram.com/'+h;
+      case 'twitter':   return 'https://x.com/'+h;
+      case 'facebook':  return 'https://facebook.com/'+h;
+      case 'github':    return 'https://github.com/'+h;
+      case 'youtube':   return 'https://youtube.com/@'+h;
+      case 'tiktok':    return 'https://tiktok.com/@'+h;
       case 'whatsapp':  return 'https://wa.me/'+v.replace(/[^\d]/g,'');
       default:          return 'https://'+v;
     }
   }
-
-  // ─── Rendu de la carte (aperçu) ────────────────────────────────
-  function renderCard(){
-    const th=THEMES[state.theme]||THEMES[0];
-    document.documentElement.style.setProperty('--accent',th.a);
-    document.documentElement.style.setProperty('--accent2',th.b);
-    document.documentElement.style.setProperty('--accent-text',th.t);
-    document.querySelector('meta[name=theme-color]').content=th.a;
-
-    // Avatar
-    const av=$('cardAvatar');
-    if(state.photo){
-      av.style.backgroundImage=`url(${state.photo})`; av.textContent='';
-    }else{
-      av.style.backgroundImage='';
-      const initials=(state.name||'').trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
-      av.textContent=initials||'?';
+  const webHref=w=>/^https?:/i.test(w)?w:'https://'+w;
+  function contactItems(){
+    const items=[];
+    if(state.phone)   items.push({i:'phone',v:state.phone,h:'tel:'+state.phone.replace(/\s/g,'')});
+    if(state.phone2)  items.push({i:'phone',v:state.phone2,h:'tel:'+state.phone2.replace(/\s/g,'')});
+    if(state.email)   items.push({i:'mail',v:state.email,h:'mailto:'+state.email});
+    if(state.website) items.push({i:'globe',v:state.website,h:webHref(state.website)});
+    if(state.address) items.push({i:'pin',v:state.address,h:'https://maps.google.com/?q='+encodeURIComponent(state.address),blank:true});
+    if(!items.length && !viewMode){
+      items.push({i:'phone',v:SAMPLE.phone,ph:true},{i:'mail',v:SAMPLE.email,ph:true});
     }
+    return items;
+  }
+
+  // ─── Rendu : carte numérique ───────────────────────────────────
+  function renderCard(){
+    const r=resolve(), el=$('card');
+    const name=show('name'), title=show('title'), company=show('company');
+    const avatarEl=state.photo
+      ? `<div class="c-avatar" style="background-image:url('${esc(state.photo)}')"></div>`
+      : (r.layout==='banner' ? `<div class="c-avatar">${esc(initials(name&&name.v)||'?')}</div>` : '');
+    el.className='card lay-'+r.layout+(avatarEl?' has-avatar':'');
+    el.style.cssText=cssVars(r);
+
+    const nameH=`<div class="c-name${name.ph?' ph':''}">${esc(name.v)}</div>`;
+    const titleH=title?`<div class="c-title${title.ph?' ph':''}">${esc(title.v)}</div>`:'';
+    const compH=company?`<div class="c-company${company.ph?' ph':''}">${esc(company.v)}</div>`:'';
+    const bioH=state.bio?`<div class="c-bio">${esc(state.bio)}</div>`:'';
+    const rule='<div class="c-rule"></div>';
+
+    const contacts=contactItems().map(c=>c.h
+      ? `<a class="c-row" href="${esc(c.h)}"${c.blank?' target="_blank" rel="noopener"':''}><span class="ico">${svg(c.i)}</span><span class="val">${esc(c.v)}</span></a>`
+      : `<div class="c-row${c.ph?' ph':''}"><span class="ico">${svg(c.i)}</span><span class="val">${esc(c.v)}</span></div>`).join('');
+    const socials=state.links.map(lk=>{const h=linkToHref(lk);return h?`<a class="c-soc" href="${esc(h)}" target="_blank" rel="noopener" title="${esc(lk.type)}">${svg(lk.type)}</a>`:'';}).join('');
+    const rest=`<div class="c-contacts">${contacts}</div>${socials?`<div class="c-socials">${socials}</div>`:''}
+      <div class="c-actions"><button class="c-btn c-primary" data-act="vcard">📇 Enregistrer</button><button class="c-btn c-ghost" data-act="share">🔗 Partager</button></div>`;
+    const logo=hasLogo();
+
+    let html;
+    switch(r.layout){
+      case 'banner':
+        html=`<div class="c-band">${logo?`<div class="c-logo">${logoHTML(true)}</div>`:''}</div>
+          <div class="c-body">${avatarEl}${nameH}${rule}${titleH}${compH}${bioH}${rest}</div>`; break;
+      case 'center':
+        html=`<div class="c-body">${logo?`<div class="c-logo">${logoHTML(false)}</div>`:''}${avatarEl}${nameH}${rule}${titleH}${compH}${bioH}${rest}</div>`; break;
+      case 'left':
+        html=`<div class="c-body">${(logo||avatarEl)?`<div class="c-top">${logo?logoHTML(false):'<span></span>'}${avatarEl}</div>`:''}${nameH}${rule}${titleH}${compH}${bioH}${rest}</div>`; break;
+      case 'bold':
+        html=`<div class="c-band"><div class="c-logo">${logo?logoHTML(true):''}</div><div class="c-hero">${nameH}${titleH}</div>${avatarEl}</div>
+          <div class="c-body">${compH}${bioH}${rest}</div>`; break;
+    }
+    el.innerHTML=html;
+
+    // Aperçus de l'éditeur
     const pp=$('photoPreview');
-    pp.style.backgroundImage=state.photo?`url(${state.photo})`:'';
-    pp.textContent=state.photo?'':'👤';
+    pp.style.backgroundImage=state.photo?`url('${state.photo}')`:''; pp.textContent=state.photo?'':'👤';
+  }
 
-    $('cardName').textContent=state.name||'Votre nom';
-    setShown('cardTitle',state.title);
-    setShown('cardCompany',state.company);
-    setShown('cardBio',state.bio);
+  // ─── Rendu : carte imprimable 85×55 ────────────────────────────
+  function renderPrintCard(){
+    const r=resolve(), el=$('cardPrint');
+    el.className='cardprint'+(HAS_BAND[r.layout]?' cp-band':'');
+    el.style.cssText=cssVars(r);
+    const name=show('name'), title=show('title'), company=show('company');
+    const parts=name.v.trim().split(/\s+/);
+    const nameH=parts.length>1
+      ? esc(parts[0])+'<b>'+esc(parts.slice(1).join(' ').toUpperCase())+'</b>'
+      : '<b>'+esc(name.v)+'</b>';
+    const rows=contactItems().map(c=>`<div class="cp-row${c.ph?' ph':''}"><span class="ico">${svg(c.i)}</span><span>${esc(c.v)}</span></div>`).join('');
+    el.innerHTML=`<div class="cp-top">${hasLogo()?logoHTML(false):''}${company?`<span class="cp-brand${company.ph?' ph':''}">${esc(company.v)}</span>`:''}</div>
+      <div><div class="cp-name${name.ph?' ph':''}">${nameH}</div>${title?`<div class="cp-title${title.ph?' ph':''}">${esc(title.v)}</div>`:''}</div>
+      <div class="cp-rule"></div>
+      <div class="cp-contacts">${rows}</div>
+      <div class="cp-qr"><div class="cp-qrimg" id="cpQR"></div><small>Scannez pour m'enregistrer</small></div>`;
+    buildQRImg($('cpQR'),4);
+  }
 
-    // Coordonnées
-    const cl=$('contactList'); cl.innerHTML='';
-    addContact(cl,'phone',state.phone,'tel:'+(state.phone||'').replace(/\s/g,''));
-    addContact(cl,'phone',state.phone2,'tel:'+(state.phone2||'').replace(/\s/g,''));
-    addContact(cl,'mail',state.email,'mailto:'+state.email);
-    addContact(cl,'globe',state.website, /^https?:/i.test(state.website)?state.website:'https://'+state.website);
-    addContact(cl,'pin',state.address, state.address?'https://maps.google.com/?q='+encodeURIComponent(state.address):'');
+  // ─── Éditeur : modèles, typos, couleurs, logo ──────────────────
+  function renderTemplates(){
+    $('tplGrid').innerHTML=TEMPLATES.map(t=>{
+      const p=PALETTES[t.palette], f=FONTS[t.font];
+      const bandH=t.layout==='bold'?44:t.layout==='banner'?22:0;
+      const aaColor=t.layout==='bold'?p.onBand:p.text;
+      const aaPos=t.layout==='bold'?'top:12px':'bottom:9px';
+      return `<button class="tpl${t.id===state.template?' sel':''}" data-t="${t.id}" type="button">
+        <div class="tpl-prev" style="background:${p.bg}">
+          ${bandH?`<div class="tpl-band" style="height:${bandH}px;background:${p.band}"></div>`:''}
+          <span class="tpl-aa" style="font-family:${f.head};color:${aaColor};${aaPos}">Aa</span>
+          <span class="tpl-dot" style="background:${p.accent}"></span>
+        </div><div class="tpl-name">${t.name}</div></button>`;
+    }).join('');
+  }
+  function renderFonts(){
+    const cur=state.font||tplOf(state.template).font;
+    $('fontChips').innerHTML=Object.entries(FONTS).map(([id,f])=>
+      `<button class="chip${id===cur?' sel':''}" data-f="${id}" type="button"><span style="font-family:${f.head}">Aa</span>${f.label}</button>`).join('');
+  }
+  function renderSwatches(){
+    const cur=state.palette||tplOf(state.template).palette;
+    const accent=resolve().p.accent;
+    $('swatches').innerHTML=Object.entries(PALETTES).map(([id,p])=>
+      `<button class="swatch${id===cur&&!state.accent?' sel':''}" data-p="${id}" type="button" title="${id}"
+        style="background:linear-gradient(135deg,${p.solid||p.bg} 50%,${p.accent} 50%)"></button>`).join('')+
+      `<label class="color-pick"><input type="color" id="accentPick" value="${/^#[0-9a-f]{6}$/i.test(accent)?accent:'#4f46e5'}">Couleur perso</label>`;
+    $('accentPick').oninput=e=>{state.accent=e.target.value;sync();};
+    $('accentPick').onchange=()=>renderSwatches();
+  }
+  function renderLogoEditor(){
+    $('logoSeg').querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.m===state.logoMode));
+    $('logoIconPanel').classList.toggle('hidden',state.logoMode!=='icon');
+    $('logoUploadPanel').classList.toggle('hidden',state.logoMode!=='upload');
+    $('monoHint').classList.toggle('hidden',state.logoMode!=='mono');
+    $('iconGrid').innerHTML=BIZ.map(b=>`<button class="icon-opt${b.id===state.logoIcon?' sel':''}" data-i="${b.id}" type="button">${svgWrap(b.p)}${b.label}</button>`).join('');
+    $('tintSeg').querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.tint===state.logoTint));
+    const lp=$('logoPreview');
+    lp.innerHTML=state.logo?`<img src="${esc(state.logo)}" class="tint-${esc(state.logoTint)}" alt="">`:'Aucun fichier';
+  }
+  function renderLinks(){
+    const box=$('links');
+    box.innerHTML=state.links.map((lk,i)=>{
+      const opts=SOCIAL_TYPES.map(s=>`<option value="${s.id}"${s.id===lk.type?' selected':''}>${s.label}</option>`).join('');
+      return `<div class="link-item"><select data-i="${i}" class="lk-type">${opts}</select>
+        <input data-i="${i}" class="lk-url" placeholder="URL ou identifiant" value="${esc(lk.value)}">
+        <button class="del" data-i="${i}" title="Supprimer" type="button">×</button></div>`;
+    }).join('');
+    box.querySelectorAll('.lk-type').forEach(el=>el.onchange=e=>{state.links[+e.target.dataset.i].type=e.target.value;sync();});
+    box.querySelectorAll('.lk-url').forEach(el=>el.oninput=e=>{state.links[+e.target.dataset.i].value=e.target.value;sync();});
+    box.querySelectorAll('.del').forEach(el=>el.onclick=e=>{state.links.splice(+e.target.dataset.i,1);renderLinks();sync();});
+  }
+  function renderStyleEditor(){renderTemplates();renderFonts();renderSwatches();renderLogoEditor();}
 
-    // Réseaux
-    const sl=$('socialList'); sl.innerHTML='';
-    state.links.forEach(lk=>{
-      const href=linkToHref(lk); if(!href) return;
-      const a=document.createElement('a');
-      a.className='social-btn'; a.href=href; a.target='_blank'; a.rel='noopener';
-      a.title=lk.type; a.innerHTML=svg(lk.type);
-      sl.appendChild(a);
+  // ─── Images : photo & logo ─────────────────────────────────────
+  function loadImage(file,cb){
+    const rd=new FileReader();
+    rd.onload=e=>{const img=new Image();img.onload=()=>cb(img,e.target.result);img.onerror=()=>toast('Image illisible');img.src=e.target.result;};
+    rd.readAsDataURL(file);
+  }
+  function resizePhoto(file,cb){
+    loadImage(file,img=>{
+      const max=240, s=Math.min(1,max/Math.max(img.width,img.height));
+      const cv=document.createElement('canvas'); cv.width=Math.round(img.width*s); cv.height=Math.round(img.height*s);
+      cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+      cb(cv.toDataURL('image/jpeg',.82));
     });
   }
-  function setShown(id,val){const el=$(id);el.textContent=val||'';el.classList.toggle('hidden',!val);}
-  function addContact(parent,icon,val,href){
-    if(!val) return;
-    const a=document.createElement(href?'a':'div');
-    a.className='contact-row';
-    if(href){a.href=href;a.target=icon==='pin'?'_blank':'_self';a.rel='noopener';}
-    a.innerHTML=`<span class="ico">${svg(icon)}</span><span class="val">${esc(val)}</span>`;
-    parent.appendChild(a);
-  }
-
-  // ─── Rendu de la carte IMPRIMABLE (fond blanc) ─────────────────
-  function renderPrintCard(){
-    const name=(state.name||'').trim();
-    const parts=name.split(/\s+/);
-    let html;
-    if(parts.length>1){
-      const first=parts[0];
-      const last=parts.slice(1).join(' ');
-      html=esc(first)+'<b>'+esc(last.toUpperCase())+'</b>';
-    }else{
-      html='<b>'+esc(name||'Votre nom')+'</b>';
+  function readLogo(file,cb){
+    if(file.size>5e6){toast('Fichier trop lourd (5 Mo max)');return;}
+    if(file.type==='image/svg+xml'){
+      const rd=new FileReader();
+      rd.onload=e=>{ if(e.target.result.length>400000){toast('SVG trop lourd (400 Ko max)');return;} cb(e.target.result); };
+      rd.readAsDataURL(file); return;
     }
-    $('cpName').innerHTML=html;
-    $('cpTitle').textContent=state.title||'';
-    const box=$('cpContacts'); box.innerHTML='';
-    addCpRow(box,'phone',state.phone);
-    addCpRow(box,'phone',state.phone2);
-    addCpRow(box,'mail',state.email);
-    addCpRow(box,'globe',state.website);
-    addCpRow(box,'pin',state.address);
-  }
-  function addCpRow(parent,icon,val){
-    if(!val) return;
-    const d=document.createElement('div');
-    d.className='cp-row';
-    d.innerHTML='<span class="ico">'+svg(icon)+'</span><span>'+esc(val)+'</span>';
-    parent.appendChild(d);
+    loadImage(file,img=>{ // PNG conservé pour garder la transparence
+      const max=600, s=Math.min(1,max/Math.max(img.width,img.height));
+      const cv=document.createElement('canvas'); cv.width=Math.round(img.width*s); cv.height=Math.round(img.height*s);
+      cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+      cb(cv.toDataURL('image/png'));
+    });
   }
 
-  // ─── vCard (.vcf) ──────────────────────────────────────────────
+  // ─── vCard ─────────────────────────────────────────────────────
   function buildVCard(){
-    const parts=['BEGIN:VCARD','VERSION:3.0'];
-    const name=(state.name||'').trim();
-    const sp=name.split(/\s+/);
-    const last=sp.length>1?sp.pop():'';
-    const first=sp.join(' ');
-    parts.push('N:'+last+';'+first+';;;');
-    parts.push('FN:'+name);
-    if(state.company) parts.push('ORG:'+state.company);
-    if(state.title) parts.push('TITLE:'+state.title);
-    if(state.phone) parts.push('TEL;TYPE=CELL:'+state.phone);
-    if(state.phone2) parts.push('TEL;TYPE=WORK:'+state.phone2);
-    if(state.email) parts.push('EMAIL;TYPE=INTERNET:'+state.email);
-    if(state.website) parts.push('URL:'+(/^https?:/i.test(state.website)?state.website:'https://'+state.website));
-    if(state.address) parts.push('ADR;TYPE=WORK:;;'+state.address.replace(/,/g,'\\,')+';;;;');
-    if(state.bio) parts.push('NOTE:'+state.bio.replace(/\n/g,'\\n'));
-    state.links.forEach(lk=>{const h=linkToHref(lk);if(h)parts.push('URL:'+h);});
-    parts.push('END:VCARD');
-    return parts.join('\r\n');
+    const out=['BEGIN:VCARD','VERSION:3.0'];
+    const name=(state.name||'').trim(), sp=name.split(/\s+/);
+    const last=sp.length>1?sp.pop():''; const first=sp.join(' ');
+    out.push('N:'+last+';'+first+';;;','FN:'+name);
+    if(state.company) out.push('ORG:'+state.company);
+    if(state.title) out.push('TITLE:'+state.title);
+    if(state.phone) out.push('TEL;TYPE=CELL:'+state.phone);
+    if(state.phone2) out.push('TEL;TYPE=WORK:'+state.phone2);
+    if(state.email) out.push('EMAIL;TYPE=INTERNET:'+state.email);
+    if(state.website) out.push('URL:'+webHref(state.website));
+    if(state.address) out.push('ADR;TYPE=WORK:;;'+state.address.replace(/,/g,'\\,')+';;;;');
+    if(state.bio) out.push('NOTE:'+state.bio.replace(/\n/g,'\\n'));
+    state.links.forEach(lk=>{const h=linkToHref(lk);if(h)out.push('URL:'+h);});
+    out.push('END:VCARD');
+    return out.join('\r\n');
   }
   function downloadVCard(){
-    if(!state.name && !state.phone && !state.email){toast('Renseignez au moins un nom ou un contact');return;}
-    const blob=new Blob([buildVCard()],{type:'text/vcard;charset=utf-8'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url; a.download=((state.name||'contact').replace(/\s+/g,'-'))+'.vcf';
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    if(!state.name&&!state.phone&&!state.email){toast('Renseignez au moins un nom ou un contact');return;}
+    const url=URL.createObjectURL(new Blob([buildVCard()],{type:'text/vcard;charset=utf-8'}));
+    const a=document.createElement('a'); a.href=url; a.download=(state.name||'contact').replace(/\s+/g,'-')+'.vcf';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
 
-  // ─── Lien de partage ───────────────────────────────────────────
-  // On exclut la photo du lien/QR pour garder le code scannable (un QR a
-  // une capacité limitée). La photo reste affichée dans votre app locale.
+  // ─── Partage (état encodé dans l'URL, sans serveur) ────────────
+  function encodeState(s){return btoa(unescape(encodeURIComponent(JSON.stringify(s)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
+  function decodeState(str){try{return JSON.parse(decodeURIComponent(escape(atob(str.replace(/-/g,'+').replace(/_/g,'/')))));}catch(e){return null;}}
   function sharePayload(){
-    const { photo, ...rest } = state;
+    // Photo et logo exclus : trop lourds pour un QR. Champs vides retirés pour un QR plus lisible.
+    const {photo,logo,...rest}=state;
+    if(rest.logoMode!=='icon') delete rest.logoIcon;
+    delete rest.logoTint;
+    Object.keys(rest).forEach(k=>{const v=rest[k];if(v===''||(Array.isArray(v)&&!v.length))delete rest[k];});
+    rest.links=(state.links||[]).filter(l=>l.value);
+    if(!rest.links.length) delete rest.links;
     return rest;
   }
-  function shareUrl(){
-    return location.origin+location.pathname+'#c='+encodeState(sharePayload());
-  }
+  const shareUrl=()=>location.origin+location.pathname+'#c='+encodeState(sharePayload());
   async function doShare(){
     const url=shareUrl();
-    if(navigator.share){
-      try{await navigator.share({title:state.name||'Ma carte de visite',url});return;}catch(e){}
-    }
+    if(navigator.share){try{await navigator.share({title:state.name||'Ma carte de visite',url});return;}catch(e){}}
     copyText(url,'Lien copié !');
   }
   function copyText(text,msg){
-    if(navigator.clipboard&&navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(()=>toast(msg||'Copié !')).catch(()=>fallbackCopy(text,msg));
-    }else fallbackCopy(text,msg);
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>toast(msg)).catch(()=>fallbackCopy(text,msg));
+    else fallbackCopy(text,msg);
   }
   function fallbackCopy(text,msg){
     const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
     document.body.appendChild(ta);ta.select();
-    try{document.execCommand('copy');toast(msg||'Copié !');}catch(e){toast('Copie impossible');}
+    try{document.execCommand('copy');toast(msg);}catch(e){toast('Copie impossible');}
     ta.remove();
   }
 
-  // ─── QR code (encode le LIEN → scan = ouvre la carte sur le tél.) ──
-  // Construit un <img> de QR pour le lien de partage dans le conteneur donné.
-  function buildQRImg(holder, cellSize){
-    holder.innerHTML='';
-    if(typeof qrcode==='undefined'){
-      holder.innerHTML='<div style="color:#64748b;font-size:12px;padding:10px">QR indisponible</div>';
-      return;
-    }
+  // ─── QR ────────────────────────────────────────────────────────
+  function buildQRImg(holder,cell){
+    if(!holder) return; holder.innerHTML='';
+    if(typeof qrcode==='undefined'){holder.innerHTML='<div style="color:#64748b;font-size:12px">QR indisponible</div>';return;}
     const url=shareUrl();
     for(const ec of ['M','L']){
-      try{
-        const qr=qrcode(0,ec); qr.addData(url); qr.make();
-        holder.innerHTML=qr.createImgTag(cellSize||5,8);
-        const img=holder.querySelector('img');
-        if(img){img.style.width='100%';img.style.height='100%';}
-        return;
-      }catch(e){}
+      try{const qr=qrcode(0,ec);qr.addData(url);qr.make();holder.innerHTML=qr.createImgTag(cell||5,8);return;}catch(e){}
     }
-    holder.innerHTML='<div style="color:#64748b;font-size:12px;padding:10px">QR trop volumineux</div>';
+    holder.innerHTML='<div style="color:#64748b;font-size:12px">QR trop volumineux</div>';
   }
-  function renderQR(){ buildQRImg($('qrHolder'), 5); }
-
   function downloadQR(){
-    const img=$('qrHolder').querySelector('img');
-    if(!img){toast('QR indisponible');return;}
-    const a=document.createElement('a');
-    a.href=img.src; a.download=((state.name||'carte').replace(/\s+/g,'-'))+'-qr.gif';
+    const img=$('qrHolder').querySelector('img'); if(!img){toast('QR indisponible');return;}
+    const a=document.createElement('a'); a.href=img.src; a.download=(state.name||'carte').replace(/\s+/g,'-')+'-qr.gif';
     document.body.appendChild(a); a.click(); a.remove();
   }
+  function presentQR(){$('qrFullName').textContent=state.name||'Ma carte';buildQRImg($('qrFullCode'),8);$('qrFull').classList.add('show');}
 
-  // ─── Présenter le QR en plein écran ────────────────────────────
-  function presentQR(){
-    $('qrFullName').textContent = state.name || 'Ma carte';
-    buildQRImg($('qrFullCode'), 8);
-    $('qrFull').classList.add('show');
-  }
-  function closePresentQR(){ $('qrFull').classList.remove('show'); }
+  let toastTimer;
+  function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2000);}
 
-  // ─── Synchronisation globale ───────────────────────────────────
+  // ─── Synchronisation ───────────────────────────────────────────
   let saveTimer;
+  function save(){
+    try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}
+    catch(e){toast('Mémoire pleine : logo ou photo trop lourd');}
+  }
   function sync(){
-    renderCard();
-    renderPrintCard();
-    renderQR();
-    buildQRImg($('cpQR'), 4);
-    clearTimeout(saveTimer);
-    saveTimer=setTimeout(()=>{try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){}},250);
+    renderCard(); renderPrintCard(); buildQRImg($('qrHolder'),5);
+    if(!viewMode){clearTimeout(saveTimer);saveTimer=setTimeout(save,250);}
   }
 
-  function bindField(id,key){
-    const el=$(id);
-    el.value=state[key]||'';
-    el.oninput=()=>{state[key]=el.value;sync();};
-  }
-
-  // ─── Initialisation ────────────────────────────────────────────
+  function bindField(id,key){const el=$(id);el.value=state[key]||'';el.oninput=()=>{state[key]=el.value;sync();};}
   function fillEditor(){
-    bindField('f-name','name');
-    bindField('f-title','title');
-    bindField('f-company','company');
-    bindField('f-bio','bio');
-    bindField('f-phone','phone');
-    bindField('f-phone2','phone2');
-    bindField('f-email','email');
-    bindField('f-website','website');
-    bindField('f-address','address');
-    renderLinks();
-    renderSwatches();
+    [['f-name','name'],['f-title','title'],['f-company','company'],['f-bio','bio'],['f-phone','phone'],['f-phone2','phone2'],
+     ['f-email','email'],['f-website','website'],['f-address','address']].forEach(([id,k])=>bindField(id,k));
+    renderLinks(); renderStyleEditor();
   }
 
-  // ─── Annuaire : sélecteur de profil ────────────────────────────
-  function buildPicker(){
-    const sel=$('profilePicker'); if(!sel) return;
-    let html='<option value="">— Nouvelle carte (vierge) —</option>';
-    ['associes','salaries'].forEach(g=>{
-      const list=PROFILES.filter(p=>p.group===g);
-      if(!list.length) return;
-      html+='<optgroup label="'+GROUP_LABELS[g]+'">';
-      list.forEach(p=>{ html+='<option value="'+p.id+'">'+esc(p.name)+'</option>'; });
-      html+='</optgroup>';
-    });
-    sel.innerHTML=html;
-    sel.onchange=()=>loadProfile(sel.value,true);
-  }
-  function loadProfile(id,updateUrl){
-    const p=PROFILES.find(x=>x.id===id);
-    if(p){
-      state=profileToState(p);
-      try{localStorage.removeItem(STORE_KEY);}catch(e){}
-      if(updateUrl){ try{history.replaceState(null,'','?p='+id);}catch(e){} }
-    }else{
-      // « vierge »
-      state={name:'',title:'',company:AGENCY.company,bio:'',phone:'',phone2:AGENCY.phoneFixe||'',email:'',website:AGENCY.website||'',address:AGENCY.address||'',photo:'',theme:8,links:[]};
-      if(updateUrl){ try{history.replaceState(null,'',location.pathname);}catch(e){} }
-    }
-    const sel=$('profilePicker'); if(sel) sel.value=id||'';
-    fillEditor(); sync();
-  }
-
-  function init(){
-    // Mode lecture si un paramètre #c= est présent (carte partagée)
-    const hash=location.hash;
-    if(hash.startsWith('#c=')){
-      const decoded=decodeState(hash.slice(3));
-      if(decoded){
-        state=Object.assign(state,decoded);
-        if(!Array.isArray(state.links)) state.links=[];
-        if(state.phone2===undefined) state.phone2='';
-        document.body.classList.add('view-mode');
-        bindActions();
-        renderCard(); renderPrintCard(); renderQR(); buildQRImg($('cpQR'),4);
-        return;
-      }
-    }
-
-    buildPicker();
-
-    // Lien profond ?p=<id> → ouvre directement la carte de ce membre
-    const pm=location.search.match(/[?&]p=([^&]+)/);
-    const pid=pm?decodeURIComponent(pm[1]):'';
-    const profile=PROFILES.find(x=>x.id===pid);
-    if(profile){
-      state=profileToState(profile);
-      const sel=$('profilePicker'); if(sel) sel.value=pid;
-    }else{
-      // Sinon : charger la sauvegarde locale (si présente)
-      try{
-        const saved=localStorage.getItem(STORE_KEY);
-        if(saved){const o=JSON.parse(saved);state=Object.assign(state,o);if(!Array.isArray(state.links))state.links=[];if(state.phone2===undefined)state.phone2='';}
-      }catch(e){}
-    }
-
-    fillEditor();
-    bindActions();
-    sync();
-  }
-
-  // ─── Bascule Numérique / Imprimable ────────────────────────────
+  // ─── Bascule numérique / imprimable ────────────────────────────
   const MODE_KEY='carte-cardmode';
   function setCardMode(mode){
     if(mode!=='print') mode='digital';
     document.body.setAttribute('data-cardmode',mode);
-    const tg=$('modeToggle');
-    if(tg) tg.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+    $('modeToggle').querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
     try{localStorage.setItem(MODE_KEY,mode);}catch(e){}
-    // (Re)génère le QR de la carte affichée pour garantir un rendu net
-    if(mode==='print') buildQRImg($('cpQR'),4); else renderQR();
   }
 
   function bindActions(){
-    injectLogos();
-    // Restaure le mode choisi (par défaut : numérique)
-    let savedMode='digital';
-    try{savedMode=localStorage.getItem(MODE_KEY)||'digital';}catch(e){}
-    setCardMode(savedMode);
-    const tg=$('modeToggle');
-    if(tg) tg.querySelectorAll('button').forEach(b=>b.onclick=()=>setCardMode(b.dataset.mode));
+    let m='digital'; try{m=localStorage.getItem(MODE_KEY)||'digital';}catch(e){}
+    setCardMode(viewMode?'digital':m);
+    $('modeToggle').querySelectorAll('button').forEach(b=>b.onclick=()=>setCardMode(b.dataset.mode));
 
-    $('photoBtn') && ($('photoBtn').onclick=()=>$('photoInput').click());
-    $('photoInput') && ($('photoInput').onchange=e=>{
-      const f=e.target.files[0]; if(!f) return;
-      resizePhoto(f,d=>{state.photo=d;sync();});
+    $('card').addEventListener('click',e=>{
+      const b=e.target.closest('[data-act]'); if(!b) return;
+      if(b.dataset.act==='vcard') downloadVCard(); else doShare();
     });
-    $('photoClear') && ($('photoClear').onclick=()=>{state.photo='';sync();});
-    $('addLink') && ($('addLink').onclick=()=>{state.links.push({type:'linkedin',value:''});renderLinks();sync();});
-    $('resetBtn') && ($('resetBtn').onclick=()=>{
-      if(!confirm('Effacer toutes les informations ?')) return;
-      state={name:'',title:'',company:'',bio:'',phone:'',phone2:'',email:'',website:'',address:'',photo:'',theme:8,links:[]};
-      try{localStorage.removeItem(STORE_KEY);}catch(e){}
-      fillEditor(); sync();
-    });
-    $('vcardBtn').onclick=downloadVCard;
-    $('shareBtn').onclick=doShare;
     $('copyLinkBtn').onclick=()=>copyText(shareUrl(),'Lien copié !');
     $('downloadQrBtn').onclick=downloadQR;
-    $('presentBtn') && ($('presentBtn').onclick=presentQR);
-    $('qrFullClose') && ($('qrFullClose').onclick=closePresentQR);
-    $('qrFull') && ($('qrFull').addEventListener('click',e=>{ if(e.target===$('qrFull')) closePresentQR(); }));
+    $('presentBtn').onclick=presentQR;
+    $('qrHolder').onclick=presentQR;
+    $('qrFullClose').onclick=()=>$('qrFull').classList.remove('show');
+    $('qrFull').addEventListener('click',e=>{if(e.target===$('qrFull'))$('qrFull').classList.remove('show');});
+    if(viewMode) return;
+
+    // Modèle : réinitialise typo / couleurs du modèle
+    $('tplGrid').onclick=e=>{const b=e.target.closest('[data-t]');if(!b)return;
+      state.template=b.dataset.t;state.font='';state.palette='';state.accent='';renderStyleEditor();sync();};
+    $('fontChips').onclick=e=>{const b=e.target.closest('[data-f]');if(!b)return;state.font=b.dataset.f;renderFonts();sync();};
+    $('swatches').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;state.palette=b.dataset.p;state.accent='';renderSwatches();sync();});
+    $('restoreTpl').onclick=()=>{state.font='';state.palette='';state.accent='';renderStyleEditor();sync();};
+
+    // Logo
+    $('logoSeg').onclick=e=>{const b=e.target.closest('[data-m]');if(!b)return;
+      state.logoMode=b.dataset.m;renderLogoEditor();sync();
+      if(state.logoMode==='upload'&&!state.logo) $('logoInput').click();};
+    $('iconGrid').onclick=e=>{const b=e.target.closest('[data-i]');if(!b)return;state.logoIcon=b.dataset.i;renderLogoEditor();sync();};
+    $('tintSeg').onclick=e=>{const b=e.target.closest('[data-tint]');if(!b)return;state.logoTint=b.dataset.tint;renderLogoEditor();sync();};
+    $('logoBtn').onclick=()=>$('logoInput').click();
+    $('logoInput').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+      readLogo(f,d=>{state.logo=d;state.logoMode='upload';renderLogoEditor();sync();});};
+    $('logoClear').onclick=()=>{state.logo='';renderLogoEditor();sync();};
+
+    // Photo
+    $('photoBtn').onclick=()=>$('photoInput').click();
+    $('photoInput').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;resizePhoto(f,d=>{state.photo=d;sync();});};
+    $('photoClear').onclick=()=>{state.photo='';sync();};
+
+    $('addLink').onclick=()=>{state.links.push({type:'linkedin',value:''});renderLinks();sync();};
+    $('resetBtn').onclick=()=>{
+      if(!confirm('Effacer toutes les informations ?')) return;
+      state=blank(); try{localStorage.removeItem(STORE_KEY);}catch(e){}
+      fillEditor(); sync();
+    };
   }
 
-  // ─── Installation PWA (Android/Chrome) ─────────────────────────
+  // ─── Initialisation ────────────────────────────────────────────
+  function init(){
+    if(location.hash.startsWith('#c=')){
+      const d=decodeState(location.hash.slice(3));
+      if(d){
+        if(!('template' in d)) d.template='nuit'; // anciens liens : rendu proche de l'ancienne carte
+        state=normalize(d); viewMode=true;
+        document.body.classList.add('view-mode');
+        bindActions(); sync(); return;
+      }
+    }
+    try{
+      const saved=localStorage.getItem(STORE_KEY);
+      if(saved) state=normalize(JSON.parse(saved));
+      else{
+        const old=localStorage.getItem(OLD_KEY);
+        if(old) state=normalize(Object.assign(JSON.parse(old),{template:'nuit'}));
+      }
+    }catch(e){}
+    fillEditor(); bindActions(); sync();
+  }
+
+  // ─── PWA ───────────────────────────────────────────────────────
   let deferredPrompt=null;
   window.addEventListener('beforeinstallprompt',e=>{
     e.preventDefault(); deferredPrompt=e;
-    const b=$('installBtn');
-    if(b){
-      b.style.display='block';
-      b.onclick=async()=>{
-        b.style.display='none';
-        deferredPrompt.prompt();
-        try{ await deferredPrompt.userChoice; }catch(_){}
-        deferredPrompt=null;
-      };
-    }
+    const b=$('installBtn'); if(!b) return;
+    b.style.display='block';
+    b.onclick=async()=>{b.style.display='none';deferredPrompt.prompt();try{await deferredPrompt.userChoice;}catch(_){}deferredPrompt=null;};
   });
-  window.addEventListener('appinstalled',()=>{ const b=$('installBtn'); if(b) b.style.display='none'; });
-
-  // ─── Service worker (mode hors-ligne + installable) ────────────
-  if('serviceWorker' in navigator){
-    window.addEventListener('load',()=>{ navigator.serviceWorker.register('./sw.js').catch(()=>{}); });
-  }
+  window.addEventListener('appinstalled',()=>{const b=$('installBtn');if(b)b.style.display='none';});
+  if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
 
   document.addEventListener('DOMContentLoaded',init);
 })();
