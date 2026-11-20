@@ -10,6 +10,7 @@ Générateur de carte de visite numérique (PWA) grand public : on choisit un mo
 - **Logo** : aucun, initiales générées, icône métier (14 choix) ou logo importé (PNG/SVG, teinte d'origine / blanc / noir).
 - **Éditeur live** : photo, identité, fonction, entreprise, coordonnées, réseaux sociaux.
 - **Aperçu instantané** : carte numérique et carte imprimable 85×55 aux couleurs du modèle.
+- **Signature mail** : signature HTML aux couleurs du modèle (polices compatibles messageries), copie en un clic pour Gmail, Outlook, Apple Mail, avec lien « Enregistrer mon contact ».
 - **Enregistrer le contact** : export vCard (`.vcf`) — s'ajoute directement aux contacts du téléphone.
 - **Partage** : lien dont l'état complet de la carte est encodé dans l'URL (aucun serveur requis).
 - **QR code** : à scanner pour ouvrir la carte sur le téléphone d'un tiers, avec mode présentation plein écran.
