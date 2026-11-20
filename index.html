@@ -205,6 +205,19 @@
   .toast.show{transform:translateX(-50%) translateY(0)}
   .toast-act{margin-left:14px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
 
+  /* Glisser-déposer d'une image depuis un dossier (PC) */
+  #dropOv{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;gap:24px;padding:24px;
+    background:rgba(2,6,23,.88);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);flex-wrap:wrap}
+  #dropOv.show{display:flex}
+  .dz{width:min(320px,42vw);height:min(260px,40vh);border:3px dashed #64748b;border-radius:24px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:12px;color:#cbd5e1;font-size:18px;font-weight:700;text-align:center;transition:all .15s}
+  .dz .big{font-size:56px;line-height:1;pointer-events:none}
+  .dz small{font-size:13px;font-weight:500;color:#94a3b8;pointer-events:none}
+  .dz span{pointer-events:none}
+  .dz.over{border-color:#a5b4fc;background:rgba(129,140,248,.18);color:#fff;transform:scale(1.04)}
+  .drop-tip{font-size:11.5px;color:var(--muted);margin-top:6px}
+  @media(hover:none){.drop-tip{display:none}}
+
   /* Barre Annuler / Rétablir / Effacer */
   .histbar{position:sticky;top:8px;z-index:20;display:flex;gap:6px;align-items:center;margin:-8px -8px 18px;padding:8px;
     background:rgba(30,41,59,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:12px}
@@ -345,6 +358,7 @@
         </div>
         <input type="file" id="photoInput" accept="image/*" hidden>
       </div>
+      <div class="drop-tip">💡 Astuce : glissez une photo ou un logo depuis un dossier n'importe où sur la page.</div>
       <div class="field" style="margin-top:12px">
         <label>Nom complet</label>
         <input id="f-name" placeholder="Camille Martin" autocomplete="name">
@@ -443,6 +457,11 @@
   <div class="qrbig" id="qrFullCode"></div>
   <div class="sub">Scannez avec l'appareil photo pour ouvrir ma carte et m'enregistrer dans vos contacts.</div>
   <button class="close" id="qrFullClose">Fermer</button>
+</div>
+
+<div id="dropOv">
+  <div class="dz" data-dz="photo"><div class="big">👤</div><span>Photo de profil</span><small>Déposez ici</small></div>
+  <div class="dz" data-dz="logo"><div class="big">🏷️</div><span>Logo</span><small>Déposez ici</small></div>
 </div>
 
 <div class="toast" id="toast">Copié !</div>
@@ -947,6 +966,30 @@
     });
   }
 
+  // ─── Glisser-déposer depuis un dossier (PC) ────────────────────
+  // Dès qu'un fichier survole la fenêtre, deux cibles s'affichent : Photo / Logo.
+  function applyImage(kind,file){
+    if(!file||!/^image\//.test(file.type)){toast('Déposez une image (PNG, JPG, SVG, WebP)');return;}
+    if(kind==='photo') resizePhoto(file,d=>{state.photo=d;sync();toast('Photo ajoutée');});
+    else readLogo(file,d=>{state.logo=d;state.logoMode='upload';renderLogoEditor();sync();toast('Logo ajouté');});
+  }
+  function bindFileDrop(){
+    const ov=$('dropOv'); let depth=0;
+    const hasFiles=e=>e.dataTransfer&&Array.from(e.dataTransfer.types||[]).includes('Files');
+    const hide=()=>{depth=0;ov.classList.remove('show');ov.querySelectorAll('.dz').forEach(z=>z.classList.remove('over'));};
+    window.addEventListener('dragenter',e=>{if(!hasFiles(e))return;e.preventDefault();depth++;ov.classList.add('show');});
+    window.addEventListener('dragleave',e=>{if(!hasFiles(e))return;depth=Math.max(0,depth-1);if(!depth)hide();});
+    window.addEventListener('dragover',e=>{if(!hasFiles(e))return;e.preventDefault();
+      const z=e.target.closest&&e.target.closest('.dz');
+      ov.querySelectorAll('.dz').forEach(x=>x.classList.toggle('over',x===z));
+      e.dataTransfer.dropEffect=z?'copy':'none';});
+    window.addEventListener('drop',e=>{if(!hasFiles(e))return;e.preventDefault();
+      const z=e.target.closest&&e.target.closest('.dz');
+      const f=e.dataTransfer.files&&e.dataTransfer.files[0];
+      hide(); if(z&&f) applyImage(z.dataset.dz,f);});
+    window.addEventListener('keydown',e=>{if(e.key==='Escape')hide();});
+  }
+
   // ─── vCard ─────────────────────────────────────────────────────
   function buildVCard(){
     const out=['BEGIN:VCARD','VERSION:3.0'];
@@ -1136,6 +1179,7 @@
     $('photoInput').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;resizePhoto(f,d=>{state.photo=d;sync();});};
     $('photoClear').onclick=()=>{state.photo='';sync();};
 
+    bindFileDrop();
     $('addLink').onclick=()=>{state.links.push({type:'linkedin',value:''});renderLinks();sync();};
     // Annuler / Rétablir / Effacer (l'effacement est lui-même annulable)
     $('undoBtn').onclick=undo;
