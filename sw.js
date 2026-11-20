@@ -1,5 +1,5 @@
 // Service worker — carte de visite numérique (fonctionnement hors-ligne)
-const CACHE = 'carte-visite-v7';
+const CACHE = 'carte-visite-v8';
 const ASSETS = [
   './',
   './index.html',
