@@ -279,6 +279,38 @@
   .cp-qrimg{width:6.4em;height:6.4em;background:#fff;border-radius:6px;padding:.25em;display:flex;align-items:center;justify-content:center}
   .cp-qrimg img{width:100%;height:100%;image-rendering:pixelated}
   .cp-qr small{font-size:.56em;color:var(--c-muted)}
+  .cp-photo{width:4.4em;height:4.4em;border-radius:50%;background:var(--c-accent) center/cover no-repeat;border:2px solid var(--c-accent)}
+
+  /* Taille du texte proportionnelle à la largeur de la carte (mise en page identique PC / téléphone) */
+  .cp-wrap{container-type:inline-size;max-width:540px;margin:0 auto}
+  @supports(width:1cqw){.cardprint{font-size:2.87cqw}}
+
+  /* ─── Mode libre : placement des éléments à la main ─────────── */
+  .cp-free .fb{position:absolute;white-space:nowrap;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+  .cp-free .fb:active{cursor:grabbing}
+  .cp-free .fb>*{margin:0!important}
+  .cp-free .cp-qr{position:static}
+  .cp-free .cp-contacts{max-width:none}
+  .cp-free .fb img{pointer-events:none}
+  .cp-free .fb:hover{outline:1px dashed rgba(99,102,241,.55);outline-offset:3px}
+  .cp-free .fb.sel{outline:1.5px dashed #6366f1;outline-offset:3px;z-index:3}
+  .cp-free.selecting{touch-action:none}
+  .fb-h{position:absolute;right:-10px;bottom:-10px;width:14px;height:14px;background:#6366f1;border:2px solid #fff;border-radius:50%;cursor:nwse-resize;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+  @media(pointer:coarse){.fb-h{width:24px;height:24px;right:-15px;bottom:-15px}}
+  .guide{position:absolute;background:#ec4899;pointer-events:none;z-index:6}
+  .guide.v{top:0;bottom:0;width:1px}
+  .guide.h{left:0;right:0;height:1px}
+
+  #freeBar{display:none;max-width:540px;margin:16px auto 0;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px;text-align:center}
+  body[data-cardmode="print"] #freeBar{display:block}
+  body.view-mode #freeBar{display:none!important}
+  #freeBar .hint{margin-top:8px}
+  #freeBar .chips{justify-content:center;margin-top:10px}
+  .fbar-sel{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center}
+  .fbar-sel b{font-size:13px;margin-right:4px;color:#a5b4fc}
+  .fbar-sel button{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:9px;padding:8px 12px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;min-width:44px}
+  .fbar-sel button:active{transform:scale(.95)}
+  #freeBar .link-btn{margin-top:12px;font-size:12px}
 
   /* ─── SIGNATURE MAIL ─────────────────────────────────────────── */
   .sigbox{display:none;max-width:540px;margin:0 auto}
@@ -406,7 +438,8 @@
       </div>
 
       <div class="card" id="card"></div>
-      <div class="cardprint" id="cardPrint"></div>
+      <div class="cp-wrap"><div class="cardprint" id="cardPrint"></div></div>
+      <div id="freeBar"></div>
 
       <div class="sigbox" id="sigBox">
         <div class="sig-mail">
@@ -573,7 +606,19 @@
   // ─── État ──────────────────────────────────────────────────────
   const STORE_KEY='carte-visite-v2', OLD_KEY='carte-visite-v1';
   const BLANK={name:'',title:'',company:'',bio:'',phone:'',phone2:'',email:'',website:'',address:'',photo:'',links:[],
-    template:'elegant',font:'',palette:'',accent:'',logoMode:'mono',logoIcon:'briefcase',logo:'',logoTint:'orig'};
+    template:'elegant',font:'',palette:'',accent:'',logoMode:'mono',logoIcon:'briefcase',logo:'',logoTint:'orig',freeLayout:null};
+  // Mode libre de la carte imprimable : position (x, y en % de la carte) et taille (s) de chaque élément
+  const FREE_KEYS=['logo','brand','photo','name','title','rule','contacts','qr'];
+  const FREE_LABEL={logo:'Logo',brand:'Entreprise',photo:'Photo',name:'Nom',title:'Fonction',rule:'Filet',contacts:'Coordonnées',qr:'QR code'};
+  const FREE_DEF={logo:{x:7.4,y:7,s:1},brand:{x:22,y:10,s:1},photo:{x:74,y:8,s:1},name:{x:7.4,y:32,s:1},
+    title:{x:7.4,y:50,s:1},rule:{x:7.4,y:58,s:1},contacts:{x:7.4,y:63,s:1},qr:{x:72,y:50,s:1}};
+  function cleanFree(f){
+    if(!f||typeof f!=='object') return null;
+    const o={};
+    FREE_KEYS.forEach(k=>{const p=f[k]; if(p&&isFinite(p.x)&&isFinite(p.y)&&isFinite(p.s)){
+      o[k]={x:+p.x,y:+p.y,s:Math.min(3.5,Math.max(.3,+p.s))}; if(p.h) o[k].h=1;}});
+    return Object.keys(o).length?o:null;
+  }
   const blank=()=>JSON.parse(JSON.stringify(BLANK));
   function normalize(o){
     const s=Object.assign(blank(),o||{});
@@ -582,6 +627,7 @@
     if(s.font && !FONTS[s.font]) s.font='';
     if(s.palette && !PALETTES[s.palette]) s.palette='';
     if(!['none','mono','icon','upload'].includes(s.logoMode)) s.logoMode='mono';
+    s.freeLayout=cleanFree(s.freeLayout);
     delete s.theme; // ancien format
     // Seules les images importées (data:) sont valables : les anciens chemins
     // (photos de l'annuaire supprimé) donnaient un rond vide.
@@ -725,12 +771,185 @@
       ? esc(parts[0])+'<b>'+esc(parts.slice(1).join(' ').toUpperCase())+'</b>'
       : '<b>'+esc(name.v)+'</b>';
     const rows=contactItems().map(c=>`<div class="cp-row${c.ph?' ph':''}"><span class="ico">${svg(c.i)}</span><span>${esc(c.v)}</span></div>`).join('');
-    el.innerHTML=`<div class="cp-top">${hasLogo()?logoHTML(false):''}${company?`<span class="cp-brand${company.ph?' ph':''}">${esc(company.v)}</span>`:''}</div>
-      <div><div class="cp-name${name.ph?' ph':''}">${nameH}</div>${title?`<div class="cp-title${title.ph?' ph':''}">${esc(title.v)}</div>`:''}</div>
-      <div class="cp-rule"></div>
-      <div class="cp-contacts">${rows}</div>
-      <div class="cp-qr"><div class="cp-qrimg" id="cpQR"></div><small>Scannez pour m'enregistrer</small></div>`;
+    const B={
+      logo:hasLogo()?logoHTML(false):'',
+      brand:company?`<span class="cp-brand${company.ph?' ph':''}">${esc(company.v)}</span>`:'',
+      photo:state.photo?`<div class="cp-photo" style="background-image:url('${esc(state.photo)}')"></div>`:'',
+      name:`<div class="cp-name${name.ph?' ph':''}">${nameH}</div>`,
+      title:title?`<div class="cp-title${title.ph?' ph':''}">${esc(title.v)}</div>`:'',
+      rule:'<div class="cp-rule"></div>',
+      contacts:`<div class="cp-contacts">${rows}</div>`,
+      qr:`<div class="cp-qr"><div class="cp-qrimg" id="cpQR"></div><small>Scannez pour m'enregistrer</small></div>`
+    };
+    const F=!viewMode&&state.freeLayout;
+    if(F){
+      el.classList.add('cp-free'); el.classList.toggle('selecting',!!freeSel);
+      el.innerHTML=FREE_KEYS.filter(k=>B[k]&&!(F[k]&&F[k].h)).map(k=>{
+        const p=F[k]||FREE_DEF[k];
+        return `<div class="fb${k===freeSel?' sel':''}" data-k="${k}" style="left:${p.x}%;top:${p.y}%;font-size:${p.s}em">${B[k]}${k===freeSel?'<span class="fb-h"></span>':''}</div>`;
+      }).join('');
+    }else{
+      el.innerHTML=`<div class="cp-top">${B.logo}${B.brand}</div>
+        <div>${B.name}${B.title}</div>${B.rule}${B.contacts}${B.qr}`;
+    }
     buildQRImg($('cpQR'),4);
+    renderFreeBar();
+  }
+
+  // ─── Mode libre : déplacer / redimensionner les éléments ───────
+  // Souris (PC) et doigt (téléphone) passent par les mêmes « pointer events ».
+  let freeSel=null, drag=null;
+  const ptrs=new Map();
+  const isTouch=()=>window.matchMedia&&matchMedia('(pointer:coarse)').matches;
+  const rnd=v=>Math.round(v*10)/10;
+  const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+  const fbEl=k=>$('cardPrint').querySelector(`.fb[data-k="${k}"]`);
+  function fpos(k){const F=state.freeLayout;return F[k]||(F[k]=Object.assign({},FREE_DEF[k]));}
+
+  function enterFree(){
+    // Point de départ = disposition actuelle du modèle, mesurée à l'écran
+    const card=$('cardPrint'), R=card.getBoundingClientRect(), F={};
+    const SEL={logo:'.cp-top .lg',brand:'.cp-brand',name:'.cp-name',title:'.cp-title',rule:'.cp-rule',contacts:'.cp-contacts',qr:'.cp-qr'};
+    FREE_KEYS.forEach(k=>{
+      const e=SEL[k]&&card.querySelector(SEL[k]);
+      if(e&&R.width){const r=e.getBoundingClientRect();F[k]={x:rnd((r.left-R.left)/R.width*100),y:rnd((r.top-R.top)/R.height*100),s:1};}
+      else F[k]=Object.assign({},FREE_DEF[k]);
+    });
+    state.freeLayout=F; freeSel=null; sync(); histRecord();
+    toast(isTouch()?'Touchez un élément pour le déplacer':'Glissez les éléments où vous voulez');
+  }
+  function leaveFree(){
+    state.freeLayout=null; freeSel=null; sync(); histRecord();
+    toast('Disposition du modèle rétablie',{label:'Annuler',fn:undo});
+  }
+  function select(k){
+    freeSel=k;
+    const card=$('cardPrint');
+    card.classList.toggle('selecting',!!k);
+    card.querySelectorAll('.fb').forEach(x=>{
+      x.classList.toggle('sel',x.dataset.k===k);
+      const h=x.querySelector('.fb-h'); if(h) h.remove();
+      if(x.dataset.k===k){const s=document.createElement('span');s.className='fb-h';x.appendChild(s);}
+    });
+    renderFreeBar();
+  }
+  function setScale(k,s){fpos(k).s=Math.round(clamp(s,.3,3.5)*100)/100;const e=fbEl(k);if(e)e.style.fontSize=fpos(k).s+'em';}
+
+  // Magnétisme : bords de la carte, centre, et alignement sur les autres éléments
+  function clearGuides(){$('cardPrint').querySelectorAll('.guide').forEach(g=>g.remove());}
+  function guide(dir,pos){const g=document.createElement('div');g.className='guide '+dir;g.style[dir==='v'?'left':'top']=pos+'%';$('cardPrint').appendChild(g);}
+  function snapMove(k,x,y,touch){
+    const card=$('cardPrint'), cw=card.clientWidth, ch=card.clientHeight, el=fbEl(k);
+    const w=el.offsetWidth/cw*100, h=el.offsetHeight/ch*100, thr=touch?2.6:1.3;
+    const tx=[card.classList.contains('cp-band')?10.5:7.4,50,92.6], ty=[7,50,93];
+    card.querySelectorAll('.fb').forEach(o=>{ if(o===el) return;
+      const ox=o.offsetLeft/cw*100, oy=o.offsetTop/ch*100, ow=o.offsetWidth/cw*100, oh=o.offsetHeight/ch*100;
+      tx.push(ox,ox+ow/2,ox+ow); ty.push(oy,oy+oh/2,oy+oh); });
+    const best=(v,size,targets)=>{let b=null;[0,size/2,size].forEach(off=>targets.forEach(t=>{const d=Math.abs(v+off-t);if(d<thr&&(!b||d<b.d))b={d,v:t-off,g:t};}));return b;};
+    clearGuides();
+    const bx=best(x,w,tx), by=best(y,h,ty);
+    if(bx){x=bx.v;guide('v',bx.g);} if(by){y=by.v;guide('h',by.g);}
+    return {x:clamp(x,0,Math.max(0,100-w)),y:clamp(y,0,Math.max(0,100-h))};
+  }
+
+  function bindFreeEditor(){
+    const card=$('cardPrint');
+    card.addEventListener('dragstart',e=>e.preventDefault());
+    card.addEventListener('pointerdown',e=>{
+      if(!state.freeLayout||viewMode) return;
+      ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      if(ptrs.size===2&&freeSel){ // pincer pour changer la taille
+        const [a,b]=[...ptrs.values()];
+        drag={mode:'pinch',d0:Math.hypot(a.x-b.x,a.y-b.y)||1,s0:fpos(freeSel).s,moved:true};
+        clearGuides(); e.preventDefault(); return;
+      }
+      const fb=e.target.closest('.fb');
+      if(!fb){ if(freeSel) select(null); return; }
+      const k=fb.dataset.k; if(freeSel!==k) select(k);
+      e.preventDefault();
+      try{card.setPointerCapture(e.pointerId);}catch(_){}
+      const p=fpos(k);
+      drag={mode:e.target.closest('.fb-h')?'resize':'move',k,id:e.pointerId,x0:e.clientX,y0:e.clientY,
+        px:p.x,py:p.y,s0:p.s,w0:fb.offsetWidth||1,R:card.getBoundingClientRect(),touch:e.pointerType!=='mouse',moved:false};
+    });
+    card.addEventListener('pointermove',e=>{
+      if(!ptrs.has(e.pointerId)) return;
+      ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      if(!drag) return;
+      if(drag.mode==='pinch'){
+        if(ptrs.size<2) return;
+        const [a,b]=[...ptrs.values()];
+        setScale(freeSel,drag.s0*Math.hypot(a.x-b.x,a.y-b.y)/drag.d0); return;
+      }
+      if(e.pointerId!==drag.id) return;
+      const dx=e.clientX-drag.x0, dy=e.clientY-drag.y0;
+      if(!drag.moved&&Math.hypot(dx,dy)<3) return;
+      drag.moved=true;
+      if(drag.mode==='resize'){setScale(drag.k,drag.s0*(drag.w0+dx)/drag.w0);return;}
+      const r=snapMove(drag.k,drag.px+dx/drag.R.width*100,drag.py+dy/drag.R.height*100,drag.touch);
+      const p=fpos(drag.k); p.x=rnd(r.x); p.y=rnd(r.y);
+      const el=fbEl(drag.k); el.style.left=p.x+'%'; el.style.top=p.y+'%';
+    });
+    const end=e=>{
+      ptrs.delete(e.pointerId);
+      if(!drag) return;
+      if(drag.mode==='pinch'){ if(ptrs.size>=2) return; }
+      else if(e.pointerId!==drag.id) return;
+      const moved=drag.moved; drag=null; clearGuides();
+      if(moved){sync();histRecord();}
+    };
+    card.addEventListener('pointerup',end);
+    card.addEventListener('pointercancel',end);
+
+    // Clavier (PC) : flèches = déplacer, +/- = taille, Suppr = masquer, Échap = désélectionner
+    document.addEventListener('keydown',e=>{
+      if(!state.freeLayout||!freeSel||document.body.getAttribute('data-cardmode')!=='print') return;
+      if(/INPUT|TEXTAREA|SELECT/.test((e.target.tagName||''))) return;
+      if(e.ctrlKey||e.metaKey||e.altKey) return;
+      const p=fpos(freeSel), st=e.shiftKey?2.5:.5;
+      const mv={ArrowLeft:[-st,0],ArrowRight:[st,0],ArrowUp:[0,-st],ArrowDown:[0,st]}[e.key];
+      if(mv){e.preventDefault();p.x=rnd(clamp(p.x+mv[0],0,100));p.y=rnd(clamp(p.y+mv[1],0,100));sync();return;}
+      if(e.key==='+'||e.key==='='){e.preventDefault();setScale(freeSel,p.s+.1);sync();return;}
+      if(e.key==='-'){e.preventDefault();setScale(freeSel,p.s-.1);sync();return;}
+      if(e.key==='Delete'||e.key==='Backspace'){e.preventDefault();freeAction('hide');return;}
+      if(e.key==='Escape') select(null);
+    });
+
+    $('freeBar').addEventListener('click',e=>{const b=e.target.closest('[data-fa]');if(b)freeAction(b.dataset.fa,b.dataset.k);});
+  }
+  function freeAction(a,k){
+    if(a==='on') return enterFree();
+    if(a==='off') return leaveFree();
+    if(a==='show'){delete fpos(k).h;select(k);sync();histRecord();return;}
+    if(a==='desel') return select(null);
+    if(!freeSel) return;
+    const p=fpos(freeSel);
+    if(a==='bigger') setScale(freeSel,p.s+.1);
+    else if(a==='smaller') setScale(freeSel,p.s-.1);
+    else if(a==='center'){const card=$('cardPrint'),el=fbEl(freeSel);if(el)p.x=rnd((100-el.offsetWidth/card.clientWidth*100)/2);}
+    else if(a==='hide'){p.h=1;toast(FREE_LABEL[freeSel]+' masqué');freeSel=null;}
+    sync(); histRecord();
+  }
+  function renderFreeBar(){
+    const bar=$('freeBar'); if(!bar||viewMode) return;
+    if(!state.freeLayout){
+      bar.innerHTML=`<button class="btn btn-primary btn-sm" data-fa="on" type="button">✋ Placer moi-même les éléments</button>
+        <div class="hint">Déplacez le logo, le nom, les coordonnées ou le QR code où vous voulez sur la carte.</div>`;
+      return;
+    }
+    const F=state.freeLayout;
+    const hidden=FREE_KEYS.filter(k=>F[k]&&F[k].h);
+    const selH=freeSel
+      ? `<div class="fbar-sel"><b>${FREE_LABEL[freeSel]}</b>
+          <button data-fa="smaller" type="button" title="Réduire">A−</button><button data-fa="bigger" type="button" title="Agrandir">A+</button>
+          <button data-fa="center" type="button">↔ Centrer</button><button data-fa="hide" type="button">Masquer</button>
+          <button data-fa="desel" type="button" title="Terminer">✓</button></div>`
+      : `<div class="hint" style="margin-top:0">${isTouch()
+          ?'Touchez un élément pour le sélectionner, faites-le glisser au doigt, pincez à deux doigts pour changer sa taille.'
+          :'Glissez les éléments à la souris. Poignée ● pour la taille · flèches du clavier pour ajuster · Suppr pour masquer.'}</div>`;
+    bar.innerHTML=selH+
+      (hidden.length?`<div class="chips">${hidden.map(k=>`<button class="chip" data-fa="show" data-k="${k}" type="button">👁 Réafficher : ${FREE_LABEL[k]}</button>`).join('')}</div>`:'')+
+      `<div><button class="link-btn" data-fa="off" type="button">↺ Revenir à la disposition du modèle</button></div>`;
   }
 
   // ─── Rendu : signature mail ────────────────────────────────────
@@ -1020,7 +1239,7 @@
   function decodeState(str){try{return JSON.parse(decodeURIComponent(escape(atob(str.replace(/-/g,'+').replace(/_/g,'/')))));}catch(e){return null;}}
   function sharePayload(){
     // Photo et logo exclus : trop lourds pour un QR. Champs vides retirés pour un QR plus lisible.
-    const {photo,logo,...rest}=state;
+    const {photo,logo,freeLayout,...rest}=state; // la disposition libre ne concerne que la carte imprimable
     if(rest.logoMode!=='icon') delete rest.logoIcon;
     delete rest.logoTint;
     Object.keys(rest).forEach(k=>{const v=rest[k];if(v===''||(Array.isArray(v)&&!v.length))delete rest[k];});
@@ -1180,6 +1399,7 @@
     $('photoClear').onclick=()=>{state.photo='';sync();};
 
     bindFileDrop();
+    bindFreeEditor();
     $('addLink').onclick=()=>{state.links.push({type:'linkedin',value:''});renderLinks();sync();};
     // Annuler / Rétablir / Effacer (l'effacement est lui-même annulable)
     $('undoBtn').onclick=undo;
